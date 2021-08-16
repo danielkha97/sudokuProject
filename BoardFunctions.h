@@ -22,7 +22,7 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col);
 
 /* This function fills in the locations with only 1 option */
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y);
-void checkAndFill(short board[][9], Array*** possibilities, int row, int col);
+bool checkAndFill(short board[][9], Array*** possibilities, int row, int col);
 
 /* this is the sudoku board printing function */
 void sudokoPrintBoard(short sudokuBoard[][9]);
