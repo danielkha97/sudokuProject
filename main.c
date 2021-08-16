@@ -28,7 +28,7 @@ void main()
 
     Array*** possible_solutions;
     printf("Initial board\n");
-    /*sudokoPrintBoard(board);*/
+    sudokoPrintBoard(board);
     printf("Press enter to start playing...\n");
    // getchar();
     possible_solutions = PossibleDigits(board);

@@ -159,3 +159,90 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col)
 	else
 		return false;
 }
+
+void sudokoPrintBoard(short sudokuBoard[][9])
+{
+	int i, j, k;
+
+	for (i = -1; i < SIZE; i++)
+	{
+		if (i == -1)
+		{
+			printf("  ");
+			for (j = 0; j < SIZE; j++)
+			{
+				if (j == j - (j % 3))
+					printf(" |");
+				printf("  %d ", j);
+			}
+			printf("\n");
+		}
+
+		else
+		{
+			if (i % 3 == 0) /* meaning rows 0 or 3 or 6 */
+			{
+				printf(" ");
+				for (k = 0; k < 6; k++)
+				{
+					printf("-------");
+				}
+
+				printf("--\n ");
+
+				printf("%d |", i);
+
+				for (k = 0; k < SIZE; k++)
+				{
+					if (sudokuBoard[i][k] != EMPTY_CELL)
+					{
+						if ((k == k - (k % 3)) && k != 0)
+							printf(" |");
+						printf("  %d ", sudokuBoard[i][k]);
+					}
+
+					else
+					{
+						if ((k == k - (k % 3)) && k != 0)
+							printf(" |");
+						printf("  %c ", SPACE);
+					}
+				}
+
+				printf("\n");
+
+			}
+
+			else
+			{
+
+				printf(" %d |", i);
+
+				for (k = 0; k < SIZE; k++)
+				{
+					if (sudokuBoard[i][k] != EMPTY_CELL)
+					{
+						if ((k == k - (k % 3)) && k != 0)
+							printf(" |");
+						printf("  %d ", sudokuBoard[i][k]);
+					}
+					else
+					{
+						if ((k == k - (k % 3)) && k != 0)
+							printf(" |");
+						printf("  %c ", SPACE);
+					}
+				}
+				printf("\n");
+
+			}
+		}
+	}
+
+	printf(" ");
+	for (k = 0; k < 6; k++)
+	{
+		printf("-------");
+	}
+	printf("--\n\n");
+}

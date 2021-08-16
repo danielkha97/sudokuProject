@@ -23,5 +23,8 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col);
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y);
 void checkAndFill(short board[][9], Array*** possibilities, int row, int col);
 
+/* this is the sudoku board printing function */
+void sudokoPrintBoard(short sudokuBoard[][9]);
+
 
 #endif /* BoardFunctions_h */
