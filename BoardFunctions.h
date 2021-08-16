@@ -1,4 +1,4 @@
-#ifndef BoardFunctions_h
+﻿#ifndef BoardFunctions_h
 #define BoardFunctions_h
 #include "GeneralFunctions.h"
 #include "Structs.h"
@@ -27,5 +27,6 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col);
 /* this is the sudoku board printing function */
 void sudokoPrintBoard(short sudokuBoard[][9]);
 
+//את חתיכת מפגרת
 
 #endif /* BoardFunctions_h */
