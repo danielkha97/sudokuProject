@@ -5,6 +5,7 @@
 
 #define EMPTY_CELL -1
 #define SIZE 9
+#define SPACE ' '
 
 /* This function receives a sudoku board and returns a matrix of pointers to struct "Array" where every cell
  * contain the possible digits for every cell in the original board */
