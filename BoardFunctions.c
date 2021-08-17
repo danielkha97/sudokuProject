@@ -101,26 +101,37 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 {
 	int singles = 0, emptyCells = 0, minLength = 9;
-	bool flag = true;
-	/* step 1 - checking each cell for length of possibilities array */
+	bool flag = true;/* the flag is true as long as there are single option cells to fill - when there aren't the while loop will stop and the correct case is returned */
+
 	while (flag == true)
 	{
+		if (singles == 0)
+			flag = false;
+
 		for (int i = 0; i < SIZE; i++)
 		{
 			for (int j = 0; j < SIZE; j++)
 			{
+				/* step 1 - checking each cell for length of possibilities array */
 
 				/* here we check the possibilities array isn't empty and lentgh equals to 1 (for 1 cell in the mat) */
 				if ((possibilities[i][j] != NULL && possibilities[i][j]->size) == 1)
 				{
+					flag = true; /* since there's a single cell, the board will be updated and the loop needs to repeat once more */
 					singles++;
+					emptyCells++;
 					if (checkAndFill(board, possibilities, i, j))
 					{
-						/* board is legal and was filled */
+						singles--;
+						emptyCells--;
 					}
 					else
 					{
-						/* finishing failed - illegal board scenario*/
+						/* the board is illegal - returning failure and terminating the loop */
+						flag = false;
+						*x = NULL;
+						*y = NULL;
+						return FINISH_FAILURE;
 					}
 
 
@@ -129,7 +140,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 				if (possibilities[i][j] != NULL && possibilities[i][j]->size > 1)
 				{
 					emptyCells++;
-					/* checking if this cell is had the shortest arr of posibilities to fill */
+					/* checking if this cell has the shortest array of posibilities to fill */
 					if (possibilities[i][j]->size < minLength)
 					{
 						*x = i;
@@ -140,8 +151,19 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 				}
 			}
 		}
-		possibilities = PossibleDigits(board);
+		if (flag)
+			possibilities = PossibleDigits(board);/* we update the possibilities board is there were changes to the board */
+
+		/* now checking if the board was filled entirely */
+		if (emptyCells == 0)
+		{
+			*x = NULL;
+			*y = NULL;
+			return FINISH_SUCCESS;
+		}
+
 	}
+	return NOT_FINISH;
 }
 bool checkAndFill(short board[][9], Array*** possibilities, int row, int col)
 {

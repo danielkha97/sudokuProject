@@ -6,6 +6,9 @@
 #define EMPTY_CELL -1
 #define SIZE 9
 #define SPACE ' '
+#define NOT_FINISH 1
+#define FINISH_SUCCESS 0
+#define FINISH_FAILURE -1
 
 /* This function receives a sudoku board and returns a matrix of pointers to struct "Array" where every cell
  * contain the possible digits for every cell in the original board */
@@ -27,6 +30,5 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col);
 /* this is the sudoku board printing function */
 void sudokoPrintBoard(short sudokuBoard[][9]);
 
-//את חתיכת מפגרת
 
 #endif /* BoardFunctions_h */
