@@ -290,9 +290,9 @@ int FillBoard(short board[][9], Array*** possibilities)
 
 	while(boardStatus == NOT_FINISH)
 	{
+
 		if (!fillUserChoice(board, possibilities, xCoord, yCoord))
 			boardStatus = FINISH_FAILURE;
-
 		else
 			boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
 
@@ -317,7 +317,7 @@ int FillBoard(short board[][9], Array*** possibilities)
 bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yCoord)
 {
 	int i, j, arrSize; 
-	int digitChosen;
+	int userChoice;
 	arrSize = (possibilities[xCoord][yCoord])->size;
 	printf("\n Cell [%d,%d] holds the minimum number of possible digits, please select one of the options below", xCoord, yCoord);
 
@@ -326,20 +326,20 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 		printf("\n%d.%d\n", j, possibilities[xCoord][yCoord]->arr[i]);
 	}
 
-	scanf("%d", &digitChosen);
+	scanf("%d", &userChoice);
 
-	digitChosen--;
+	userChoice--;
 
 	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
-	if (isValidNum(possibilities[xCoord][yCoord]->arr[digitChosen], board, xCoord, yCoord))
+	if (isValidNum(possibilities[xCoord][yCoord]->arr[userChoice], board, xCoord, yCoord))
 	{
 		/*setting the value in the game board */
-		board[xCoord][yCoord] = (possibilities[xCoord][yCoord]->arr)[digitChosen];
+		board[xCoord][yCoord] = (possibilities[xCoord][yCoord]->arr)[userChoice];
 
-		/* freeing the cell in possibilities board */
+		/* reallocaing the array of possible digits in the possibilities board */
 		possibilities[xCoord][yCoord]->arr = (short*)realloc(possibilities[xCoord][yCoord]->arr,  (--arrSize)*sizeof(short));
-
 		checkAlloc(possibilities[xCoord][yCoord]->arr);
+
 		return true;
 	}
 	else
