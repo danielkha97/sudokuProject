@@ -115,8 +115,8 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 				/* step 1 - checking each cell for length of possibilities array */
 
 				/* here we check the possibilities array isn't empty and lentgh equals to 1 (for 1 cell in the mat) */
-				if ((possibilities[i][j] != NULL && possibilities[i][j]->size) == 1)
-				{
+				if ((possibilities[i][j] != NULL && possibilities[i][j]->size == 1))				
+                {
 					flag = true; /* since there's a single cell, the board will be updated and the loop needs to repeat once more */
 					singles++;
 					emptyCells++;
@@ -129,8 +129,8 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 					{
 						/* the board is illegal - returning failure and terminating the loop */
 						flag = false;
-						*x = NULL;
-						*y = NULL;
+						x = NULL;
+						y = NULL;
 						return FINISH_FAILURE;
 					}
 
@@ -157,8 +157,8 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 		/* now checking if the board was filled entirely */
 		if (emptyCells == 0)
 		{
-			*x = NULL;
-			*y = NULL;
+			x = NULL;
+			y = NULL;
 			return FINISH_SUCCESS;
 		}
 
