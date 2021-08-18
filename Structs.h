@@ -7,5 +7,11 @@ typedef struct _Array
     unsigned short size;
 }Array;
 
+typedef struct _cell
+{
+    int xCoord;
+    int yCoord;
+}Cell;
+
 
 #endif  /* Structs_h */

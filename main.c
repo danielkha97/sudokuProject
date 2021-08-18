@@ -31,6 +31,9 @@ void main()
     sudokoPrintBoard(board);
     printf("Press enter to start playing...\n");
     getchar();
+
+
+
     possible_solutions = PossibleDigits(board);
 
     

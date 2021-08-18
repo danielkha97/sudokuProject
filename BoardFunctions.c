@@ -12,6 +12,7 @@ Array*** PossibleDigits(short sudokuBoard[][9])
 
 }
 
+
 Array*** initPossibilitiesMatrix(short sudokuBoard[][9])
 {
 	Array*** res;
@@ -74,7 +75,7 @@ void fillPossibilities(Array* res, short sudokuBoard[][9], int row, int col)
 bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
 {
 	bool flag = true;
-	int i, xPos, yPos;
+	int i, xCoord, yCoord;
 
 	for (i = 0; i < SIZE && flag; i++) // checks row and col of the current cell
 	{
@@ -85,12 +86,12 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
 
 	if (flag) // if true, checks the entire cube of the current cell
 	{
-		xPos = row - (row % 3); // Retrieves y  for the current cube that we're gonna check
-		yPos = col - (col % 3); // Retrieves x and y starting values for the current cube that we're gonna check
+		xCoord = row - (row % 3); // Retrieves y  for the current cube that we're gonna check
+		yCoord = col - (col % 3); // Retrieves x and y starting values for the current cube that we're gonna check
 
 		for (i = 0; i < 3 && flag; i++)
 		{
-			if (sudokuBoard[xPos + i][yPos] == num || sudokuBoard[xPos + i][yPos + 1] == num || sudokuBoard[xPos + i][yPos + 2] == num)
+			if (sudokuBoard[xCoord + i][yCoord] == num || sudokuBoard[xCoord + i][yCoord + 1] == num || sudokuBoard[xCoord + i][yCoord + 2] == num)
 				flag = false;
 		}
 	}
@@ -100,7 +101,7 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
 /* This function fills in the locations with only 1 option */
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 {
-	int singles = 0, emptyCells = 0, minLength = 9,res;
+	int singles = 0, emptyCells = 0, minLength = 9, res = 0;
 	bool areSingles = true;/* the flag is true as long as there are single option cells to fill - when there aren't the while loop will stop and the correct case is returned */
 
 	while (areSingles == true)
@@ -108,9 +109,9 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 		if (singles == 0)
 			areSingles = false;
 
-		for (int i = 0; i < SIZE; i++)
+		for (int i = 0; i < SIZE && res != FINISH_FAILURE; i++)
 		{
-			for (int j = 0; j < SIZE; j++)
+			for (int j = 0; j < SIZE && res != FINISH_FAILURE ; j++)
 			{
 				/* step 1 - checking each cell for length of possibilities array */
 
@@ -132,6 +133,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 						x = NULL;
 						y = NULL;
 						res = FINISH_FAILURE;
+						break;
 					}
 
 
@@ -145,12 +147,14 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 					{
 						*x = i;
 						*y = j;
+
 						/* replacing the shortest length */
 						minLength = possibilities[i][j]->size;
 					}
 				}
 			}
 		}
+
 		if (areSingles)
 			possibilities = PossibleDigits(board); /* we update the possibilities board is there were changes to the board */
 
@@ -280,5 +284,65 @@ void sudokoPrintBoard(short sudokuBoard[][9])
 
 int FillBoard(short board[][9], Array*** possibilities)
 {
+	int boardStatus , xCoord, yCoord, gameStatus;
+	
+	boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
+
+	while(boardStatus == NOT_FINISH)
+	{
+		if (!fillUserChoice(board, possibilities, xCoord, yCoord))
+			boardStatus = FINISH_FAILURE;
+
+		else
+			boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
+
+	}
+
+	if (boardStatus == FINISH_SUCCESS)
+	{
+		printf("Success\n");
+		gameStatus = FILLED;
+	}
+
+	else if (boardStatus == FINISH_FAILURE)
+	{
+		printf("Game over\n");
+		gameStatus = FAIL;
+	}
+
+	return gameStatus;
+}
+
+
+bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yCoord)
+{
+	int i, j, arrSize; 
+	int digitChosen;
+	arrSize = (possibilities[xCoord][yCoord])->size;
+	printf("\n Cell [%d,%d] holds the minimum number of possible digits, please select one of the options below", xCoord, yCoord);
+
+	for (i = 0, j=1 ; i < arrSize; i++, j++)
+	{
+		printf("\n%d.%d\n", j, possibilities[xCoord][yCoord]->arr[i]);
+	}
+
+	scanf("%d", &digitChosen);
+
+	digitChosen--;
+
+	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
+	if (isValidNum(possibilities[xCoord][yCoord]->arr[digitChosen], board, xCoord, yCoord))
+	{
+		/*setting the value in the game board */
+		board[xCoord][yCoord] = (possibilities[xCoord][yCoord]->arr)[digitChosen];
+
+		/* freeing the cell in possibilities board */
+		possibilities[xCoord][yCoord]->arr = (short*)realloc(possibilities[xCoord][yCoord]->arr,  (--arrSize)*sizeof(short));
+
+		checkAlloc(possibilities[xCoord][yCoord]->arr);
+		return true;
+	}
+	else
+		return false;
 
 }

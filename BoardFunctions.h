@@ -9,8 +9,8 @@
 #define NOT_FINISH 1
 #define FINISH_SUCCESS 0
 #define FINISH_FAILURE -1
-#define FILEED 1
-#define FAILED 0
+#define FILLED 1
+#define FAIL 0
 /* This function receives a sudoku board and returns a matrix of pointers to struct "Array" where every cell
  * contain the possible digits for every cell in the original board */
 Array ***PossibleDigits(short sudokuBoard[][9]);
@@ -34,5 +34,7 @@ void sudokoPrintBoard(short sudokuBoard[][9]);
 /* this function supervises the functions from questions A,B*/
 int FillBoard(short board[][9], Array*** possibilities);
 
+/* This function asks the user which digit to choose in a cell to put in and fills it in the suddoku board and possibilities matrix accordingly*/
+bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yCoord);
 
 #endif /* BoardFunctions_h */
