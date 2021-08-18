@@ -30,10 +30,10 @@ void main()
     printf("Initial board\n");
     sudokoPrintBoard(board);
     printf("Press enter to start playing...\n");
-   // getchar();
+    getchar();
     possible_solutions = PossibleDigits(board);
 
-    /*
+    
     if (FillBoard(board, possible_solutions) == -1)
         printf("User's selections led to duplications\n");
 
@@ -42,7 +42,7 @@ void main()
         sudokoPrintBoard(board);
         printf("Board filled successfully\n");
     }
-     */
+     
 
 
 
