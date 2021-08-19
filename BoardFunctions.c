@@ -104,7 +104,7 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
 /* This function fills in the locations with only 1 option */
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 {
-	int singleCellsFound = 0, emptyCells = 1,  res = 0;
+	int singleCellsFound = 0, emptyCells = 0,  res = 0;
 	unsigned short minLength = 9;
 	bool areSingleCells = true; /* the flag is true as long as there are single option cells to fill - when there aren't the while loop will stop and the correct case is returned */
 
@@ -127,16 +127,15 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 					
 					if (!checkAndFill(board, possibilities, i, j, 0)) /* if this board is illegal */
 					{
-						
 						areSingleCells = false;
 						res = FINISH_FAILURE;
 					}
 					else 
 					{   
+						possibilities = PossibleDigits(board); /* we update the possibilities board is there were changes to the board */
 						areSingleCells = true;
 						emptyCells--;
 					}
-
 				}
 
 				/* if the cell is empty & more than one possibility, checking if it's the shortest possibilities array */
@@ -145,7 +144,6 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 					emptyCells++;
 
 					/* checking if this cell has the shortest array of posibilities to fill */
-
 					if (possibilities[i][j] -> size < minLength)   /* there is a problem here that needs to be fixed */
 					{
 						*x = i;
@@ -160,12 +158,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 
 			
 		}
-
 	
-	
-		possibilities = PossibleDigits(board); /* we update the possibilities board is there were changes to the board */
-			
-
 		/* now checking if the board was filled entirely */
 		if (emptyCells == 0)
 		{
@@ -194,9 +187,7 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, in
 	    /* freeing the cell in possibilities board because there was only one option */
 		free(possibilities[row][col]->arr);
 		free(possibilities[row][col]);
-		
-		
-
+	
 		return true;
 	}
 	else
