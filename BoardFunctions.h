@@ -9,8 +9,10 @@
 #define NOT_FINISH 1
 #define FINISH_SUCCESS 0
 #define FINISH_FAILURE -1
-#define FILLED 1
-#define FAIL 0
+#define FILLED 0
+#define FAIL -1
+#define NOT_FOUND -1
+
 /* This function receives a sudoku board and returns a matrix of pointers to struct "Array" where every cell
  * contain the possible digits for every cell in the original board */
 Array ***PossibleDigits(short sudokuBoard[][9]);
@@ -26,7 +28,7 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col);
 
 /* This function fills in the locations with only 1 option */
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y);
-bool checkAndFill(short board[][9], Array*** possibilities, int row, int col);
+bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, int arrInd);
 
 /* this is the sudoku board printing function */
 void sudokoPrintBoard(short sudokuBoard[][9]);
@@ -36,5 +38,8 @@ int FillBoard(short board[][9], Array*** possibilities);
 
 /* This function asks the user which digit to choose in a cell to put in and fills it in the suddoku board and possibilities matrix accordingly*/
 bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yCoord);
+
+/*this function is a binary search function for finding the index of the item given in an array*/
+int findIndInArray(short* arr, unsigned short size, int item);
 
 #endif /* BoardFunctions_h */

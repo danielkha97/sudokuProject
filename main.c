@@ -38,7 +38,7 @@ void main()
 
     
     if (FillBoard(board, possible_solutions) == -1)
-        printf("User's selections led to duplications\n");
+       printf("User's selections led to duplications\n");
 
     else
     {
@@ -50,5 +50,5 @@ void main()
 
 
     // Don't forget to free memory!
-
+    
 }
