@@ -42,4 +42,7 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 /*this function is a binary search function for finding the index of the item given in an array*/
 int findIndInArray(short* arr, unsigned short size, int item);
 
+/* this function updates the possibilities matrix after filling a one option digi-cell*/
+void updatePossibilitiesMatrix(Array*** possibilities, int row, int col,  short num);
+
 #endif /* BoardFunctions_h */

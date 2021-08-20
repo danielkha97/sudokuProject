@@ -106,6 +106,8 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 {
 	int singleCellsFound = 0, emptyCells = 0,  res = 0;
 	unsigned short minLength = 9;
+	Array*** temp;
+
 	bool areSingleCells = true; /* the flag is true as long as there are single option cells to fill - when there aren't the while loop will stop and the correct case is returned */
 
 	while (areSingleCells == true)
@@ -122,9 +124,10 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 				/* here we check the possibilities array isn't empty and lentgh equals to 1 (for 1 cell in the mat) */
 				if (possibilities[i][j] != NULL && possibilities[i][j]->size == 1)				
                 {
+					short currNum;
 					areSingleCells = true; /* since there's a single cell, the board will be updated and the loop needs to repeat once more */
 					singleCellsFound++;
-					
+					currNum = possibilities[i][j]->arr[0];
 					if (!checkAndFill(board, possibilities, i, j, 0)) /* if this board is illegal */
 					{
 						areSingleCells = false;
@@ -132,8 +135,10 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 					}
 					else 
 					{   
-						possibilities = PossibleDigits(board); /* we update the possibilities board is there were changes to the board */
-						areSingleCells = true;
+					    //updatePossibilitiesMatrix(possibilities, i, j, currNum); /* we update the possibilities board is there were changes to the board */
+						temp = PossibleDigits(board);
+						possibilities = temp;
+						areSingleCells = true; 
 						emptyCells--;
 					}
 				}
@@ -187,6 +192,7 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, in
 	    /* freeing the cell in possibilities board because there was only one option */
 		free(possibilities[row][col]->arr);
 		free(possibilities[row][col]);
+		possibilities[row][col] = NULL;
 	
 		return true;
 	}
@@ -288,7 +294,6 @@ int FillBoard(short board[][9], Array*** possibilities)
 	
 	boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
 	sudokoPrintBoard(board);
-	possibilities = PossibleDigits(board);
 
 	while(boardStatus == NOT_FINISH)
 	{
@@ -297,7 +302,6 @@ int FillBoard(short board[][9], Array*** possibilities)
 			boardStatus = FINISH_FAILURE;
 		else
 		{
-			possibilities = PossibleDigits(board);
 			boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
 		}
 
@@ -365,4 +369,116 @@ int findIndInArray(short* arr, unsigned short size, int item)
 	}
 
 	return ind;
+}
+
+void updatePossibilitiesMatrix(Array*** possibilities, int row, int col, short num)
+{
+	/* this function go over the row and col and 3X3 matrix of a specific cell (one option digit cell) and removes and filled digit from the other empty cells*/
+	short i, ind, xCoord, yCoord, prevSize;
+	short j;
+	short k = 0;
+
+	for (i = 0; i < SIZE; i++) 
+	{
+		if (possibilities[row][i] != NULL)
+		{
+			if (i != col)
+			{
+				ind = findIndInArray(possibilities[row][i]->arr, possibilities[row][i]->size, num);
+				if (ind != NOT_FOUND)
+				{
+					prevSize = possibilities[row][i]->size;
+					possibilities[row][i]->size -= 1;
+					
+					short* newArr;
+					newArr = (short*)malloc((short)(possibilities[row][i]->size) * sizeof(short));
+					checkAlloc(newArr);
+					for (j = 0; j < possibilities[row][i]->size; j++)
+					{
+						if (j != ind)
+						{
+							newArr[k] = possibilities[row][i]->arr[j];
+							k++;
+						}
+					}
+
+					free(possibilities[row][i]->arr);
+					possibilities[row][i]->arr = newArr;
+					k = 0;
+				}
+			}
+
+		}
+
+		if (possibilities[i][col] != NULL)
+		{
+			if (i != row)
+			{
+				ind = findIndInArray(possibilities[i][col]->arr, possibilities[i][col]->size, num);
+				if (ind != NOT_FOUND)
+				{
+					prevSize = possibilities[i][col]->size;
+					possibilities[i][col]->size -= 1;
+					short* newArr;
+					newArr = (short*)malloc((short)(possibilities[i][col]->size) * sizeof(short));
+					checkAlloc(newArr);
+					for (j = 0; j < (possibilities[i][col]->size); j++)
+					{
+						if (j != ind)
+						{
+							newArr[k] = possibilities[i][col]->arr[j];
+							k++;
+						}
+
+					}
+
+					free(possibilities[i][col]->arr);
+					possibilities[i][col]->arr = newArr;
+					k = 0;
+				}
+			}
+
+		}
+
+
+
+	}
+
+	xCoord = row - (row % 3); // Retrieves y  for the current cube that we're gonna check
+	yCoord = col - (col % 3); // Retrieves x and y starting values for the current cube that we're gonna check
+
+	for (i = 0; i < 3; i++)
+	{
+		for (j = 0; j < 3; j++)
+		{
+			if (possibilities[xCoord + i][yCoord + j] != NULL)
+			{
+				if (xCoord + i != row || yCoord + j != col)
+				{
+					ind = findIndInArray(possibilities[xCoord + i][yCoord + j]->arr, possibilities[xCoord + i][yCoord + j]->size, num);
+					if (ind != NOT_FOUND)
+					{
+						prevSize = possibilities[xCoord + i][yCoord + j]->size;
+						possibilities[xCoord + i][yCoord + j]->size -= 1;
+						short* newArr;
+						newArr = (short*)malloc((short)(possibilities[xCoord + i][yCoord + j]->size) * sizeof(short));
+						for (j = 0; j < (possibilities[xCoord + i][yCoord + j]->size); j++)
+						{
+							if (j != ind)
+							{
+								newArr[k] = possibilities[xCoord + i][yCoord + j]->arr[j];
+								k++;
+							}
+						}
+
+						free(possibilities[xCoord + i][yCoord + j]->arr);
+						possibilities[xCoord + i][yCoord + j]->arr = newArr;
+						k = 0;
+					}
+				}
+			}
+
+		}
+	}
+
 }
