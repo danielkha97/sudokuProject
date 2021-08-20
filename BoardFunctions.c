@@ -136,8 +136,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 					else 
 					{   
 					    //updatePossibilitiesMatrix(possibilities, i, j, currNum); /* we update the possibilities board is there were changes to the board */
-						temp = PossibleDigits(board);
-						possibilities = temp;
+						possibilities = PossibleDigits(board);
 						areSingleCells = true; 
 						emptyCells--;
 					}
