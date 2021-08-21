@@ -133,13 +133,11 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 					}
 					else 
 					{   
-						
+						//freePossibilitiesBoard(possibilities);  ---- check if needed here
 						possibilities = PossibleDigits(board);
 					    updatePossibilitiesMatrix(board ,possibilities, i, j); /* we update the possibilities board is there were changes to the board */
 						areSingleCells = true; 
 						emptyCells--;
-						
-
 					}
 				}
 
@@ -334,16 +332,17 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 
 	for (i = 0, j=1 ; i < arrSize; i++, j++)
 	{
-		printf("\n %d.%d\n", j, possibilities[xCoord][yCoord]->arr[i]);
+		printf("\n %d. %d\n", j, possibilities[xCoord][yCoord]->arr[i]);
 	}
 
 	scanf(" %d",  &userChoice);
 
-	chosenIndex = findIndInArray(possibilities[xCoord][yCoord]->arr, possibilities[xCoord][yCoord]->size, userChoice); /* finding the ind of the digit select by the user in the array of the cell */   
+	chosenIndex = findIndInArray(possibilities[xCoord][yCoord]->arr, arrSize, userChoice); /* finding the ind of the digit select by the user in the array of the cell */
     
 	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
 	if (checkAndFill(board, possibilities, xCoord, yCoord, chosenIndex))
 	{
+		
 		possibilities = PossibleDigits(board);
 		updatePossibilitiesMatrix(board, possibilities, xCoord, yCoord);
 		sudokoPrintBoard(board);
