@@ -64,7 +64,7 @@ void fillPossibilities(Array* res, short sudokuBoard[][9], int row, int col)
 
 	if (logSize < SIZE)
 	{
-		res->arr = (short*)realloc(res->arr, logSize * sizeof(short));
+		res->arr = (short*) realloc (res->arr, logSize * sizeof(short));
 		checkAlloc(res->arr);
 	}
 
@@ -106,7 +106,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 {
 	int singleCellsFound = 0, emptyCells = 0,  res = 0;
 	unsigned short minLength = 9;
-	Array*** temp;
+	
 
 	bool areSingleCells = true; /* the flag is true as long as there are single option cells to fill - when there aren't the while loop will stop and the correct case is returned */
 
@@ -117,28 +117,29 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 
 		for (int i = 0; i < SIZE && res != FINISH_FAILURE; i++)
 		{
-			for (int j = 0; j < SIZE && res != FINISH_FAILURE ; j++)
+			for (int j = 0; j < SIZE && res != FINISH_FAILURE ; j++)	/* step 1 - checking each cell for length of possibilities array */
 			{
-				/* step 1 - checking each cell for length of possibilities array */
-
+			
 				/* here we check the possibilities array isn't empty and lentgh equals to 1 (for 1 cell in the mat) */
 				if (possibilities[i][j] != NULL && possibilities[i][j]->size == 1)				
                 {
-					short currNum;
 					areSingleCells = true; /* since there's a single cell, the board will be updated and the loop needs to repeat once more */
 					singleCellsFound++;
-					currNum = possibilities[i][j]->arr[0];
 					if (!checkAndFill(board, possibilities, i, j, 0)) /* if this board is illegal */
 					{
 						areSingleCells = false;
 						res = FINISH_FAILURE;
+						break;
 					}
 					else 
 					{   
-					    //updatePossibilitiesMatrix(possibilities, i, j, currNum); /* we update the possibilities board is there were changes to the board */
+						
 						possibilities = PossibleDigits(board);
+					    updatePossibilitiesMatrix(board ,possibilities, i, j); /* we update the possibilities board is there were changes to the board */
 						areSingleCells = true; 
 						emptyCells--;
+						
+
 					}
 				}
 
@@ -182,6 +183,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 }
 bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, int arrInd)
 {
+	
 	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
 	if (isValidNum(possibilities[row][col]-> arr[arrInd], board, row, col))
 	{
@@ -192,7 +194,8 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, in
 		free(possibilities[row][col]->arr);
 		free(possibilities[row][col]);
 		possibilities[row][col] = NULL;
-	
+		
+		
 		return true;
 	}
 	else
@@ -296,12 +299,12 @@ int FillBoard(short board[][9], Array*** possibilities)
 
 	while(boardStatus == NOT_FINISH)
 	{
-
+		
 		if (!fillUserChoice(board, possibilities, xCoord, yCoord))  /* when the function returns false it means that the user's choice led to duplications */
 			boardStatus = FINISH_FAILURE;
 		else
 		{
-			boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
+				boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
 		}
 
 	}
@@ -326,20 +329,23 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 	int userChoice, chosenIndex;
 	arrSize = possibilities[xCoord][yCoord]->size ;
 
+
 	printf("\n Cell [%d,%d] holds the minimum number of possible digits, please select one of the options below", xCoord, yCoord);
 
 	for (i = 0, j=1 ; i < arrSize; i++, j++)
 	{
-		printf("\n%d.%d\n", j, possibilities[xCoord][yCoord]->arr[i]);
+		printf("\n %d.%d\n", j, possibilities[xCoord][yCoord]->arr[i]);
 	}
 
-	scanf("%d",  &userChoice);
+	scanf(" %d",  &userChoice);
 
-	chosenIndex = findIndInArray(possibilities[xCoord][yCoord]->arr, possibilities[xCoord][yCoord]->size, userChoice); /* finding the ind of the digit select by the user in the array of the cell */
-
+	chosenIndex = findIndInArray(possibilities[xCoord][yCoord]->arr, possibilities[xCoord][yCoord]->size, userChoice); /* finding the ind of the digit select by the user in the array of the cell */   
+    
 	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
 	if (checkAndFill(board, possibilities, xCoord, yCoord, chosenIndex))
 	{
+		possibilities = PossibleDigits(board);
+		updatePossibilitiesMatrix(board, possibilities, xCoord, yCoord);
 		sudokoPrintBoard(board);
 		return true;
 	}
@@ -370,16 +376,16 @@ int findIndInArray(short* arr, unsigned short size, int item)
 	return ind;
 }
 
-void updatePossibilitiesMatrix(Array*** possibilities, int row, int col, short num)
+void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col)
 {
 	/* this function go over the row and col and 3X3 matrix of a specific cell (one option digit cell) and removes and filled digit from the other empty cells*/
 	short i, ind, xCoord, yCoord, prevSize;
 	short j;
 	short k = 0;
 
-	for (i = 0; i < SIZE; i++) 
+	for (i = 0; i < SIZE; i++)
 	{
-		if (possibilities[row][i] != NULL)
+		/*if (possibilities[row][i] != NULL)
 		{
 			if (i != col)
 			{
@@ -437,10 +443,23 @@ void updatePossibilitiesMatrix(Array*** possibilities, int row, int col, short n
 				}
 			}
 
+		}*/
+		
+		if (possibilities[row][i] != NULL)
+		{
+			if (possibilities[row][i]->size == 1)
+			{
+			   checkAndFill(board, possibilities, row, i, 0);
+			}
 		}
 
-
-
+		if (possibilities[i][col] != NULL)
+		{
+			if (possibilities[i][col]->size == 1)
+			{
+			   checkAndFill(board, possibilities, i, col, 0);
+			}
+		}
 	}
 
 	xCoord = row - (row % 3); // Retrieves y  for the current cube that we're gonna check
@@ -452,7 +471,8 @@ void updatePossibilitiesMatrix(Array*** possibilities, int row, int col, short n
 		{
 			if (possibilities[xCoord + i][yCoord + j] != NULL)
 			{
-				if (xCoord + i != row || yCoord + j != col)
+				
+				/*if (xCoord + i != row || yCoord + j != col)
 				{
 					ind = findIndInArray(possibilities[xCoord + i][yCoord + j]->arr, possibilities[xCoord + i][yCoord + j]->size, num);
 					if (ind != NOT_FOUND)
@@ -474,10 +494,31 @@ void updatePossibilitiesMatrix(Array*** possibilities, int row, int col, short n
 						possibilities[xCoord + i][yCoord + j]->arr = newArr;
 						k = 0;
 					}
+				}*/
+				
+				if (possibilities[xCoord + i][yCoord + j]->size == 1)
+				{
+			       checkAndFill(board, possibilities, xCoord + i, yCoord + j, 0);
 				}
 			}
 
 		}
 	}
 
+}
+
+void freePossibilitiesBoard(Array*** possibilities)
+{
+	int i, j;
+
+	for(i = 0; i < SIZE ; i++)
+		for (j = 0; j < SIZE; j++)
+		{
+			if (possibilities[i][j] != NULL)
+			{
+				free(possibilities[i][j]->arr);
+				free(possibilities[i][j]);
+				possibilities[i][j] = NULL;
+			}
+		}
 }
