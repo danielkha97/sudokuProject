@@ -301,6 +301,104 @@ void sudokoPrintBoard(short sudokuBoard[][9])
 		printf("-------");
 	}
 	printf("--\n\n");
+
+	/*
+	* 	int i, j, k;
+	printf("\n\n  ");
+	for (i = -1; i < SIZE; i++)
+	{
+
+		if (i == -1)
+		{
+
+			for (j = 0; j < SIZE; j++)
+			{
+				if (j == j - (j % 3))
+					printf("|");
+				printf(" %d", j);
+			}
+			printf("\n");
+		}
+
+		else
+		{
+			if (i % 3 == 0)
+			{
+
+				for (k = 0; k < 3; k++)
+				{
+					printf("-------");
+				}
+
+				printf("--\n ");
+
+				printf("%d|", i);
+
+				for (k = 0; k < SIZE; k++)
+				{
+					if (sudokuBoard[i][k] != EMPTY_CELL)
+					{
+						if ((k == k - (k % 3)) && k != 0)
+							printf("|");
+						printf(" %d", sudokuBoard[i][k]);
+					}
+
+					else
+					{
+						if ((k == k - (k % 3)) && k != 0)
+							printf("|");
+						printf(" %c", SPACE);
+					}
+				}
+
+				printf("\n ");
+
+			}
+
+			else
+			{
+
+				printf("%d|", i);
+
+				for (k = 0; k < SIZE; k++)
+				{
+					if (sudokuBoard[i][k] != EMPTY_CELL)
+					{
+						if ((k == k - (k % 3)) && k != 0)
+							printf("|");
+						printf(" %d", sudokuBoard[i][k]);
+					}
+					else
+					{
+						if ((k == k - (k % 3)) && k != 0)
+							printf("|");
+						printf(" %c", SPACE);
+					}
+				}
+
+				if (i % SIZE == 2 || i % SIZE == 5 || i % SIZE == 8)
+				{
+					printf("\n");
+				}
+
+				else
+				{
+					printf("\n ");
+				}
+
+
+			}
+		}
+	}
+
+
+	for (k = 0; k < 3; k++)
+	{
+		printf("-------");
+	}
+	printf("--\n");
+	*/
+
 }
 
 
@@ -335,6 +433,8 @@ int FillBoard(short board[][9], Array*** possibilities)
 		gameStatus = FAIL;
 	}
 
+	freePossibilitiesBoard(possibilities);
+
 	return gameStatus;
 }
 
@@ -348,16 +448,17 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 
 
 
-	printf("\n Cell [%d,%d] holds the minimum number of possible digits, please select one of the options below", xCoord, yCoord);
+	printf("\n Cell [%d,%d] currently holds the minimum number of possible digits, please select one of the options below:\n", xCoord, yCoord);
 
 	for (i = 0, j = 1; i < arrSize; i++, j++)
 	{
-		printf("\n %d. %d\n", j, possibilities[xCoord][yCoord]->arr[i]);
+		printf(" %d. %d\n", j, possibilities[xCoord][yCoord]->arr[i]);
 	}
 
-	scanf(" %d", &userChoice);
+	printf(" ");
+	scanf("%d", &userChoice);
 
-	printf("Updating cell %d with value %d\n", (9 * xCoord) + yCoord, userChoice);
+	printf(" Updating cell %d with value %d\n\n", (9 * xCoord) + yCoord, userChoice);
 
 	chosenIndex = findIndInArray(possibilities[xCoord][yCoord]->arr, arrSize, userChoice); /* finding the ind of the digit select by the user in the array of the cell */
 	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
@@ -412,9 +513,9 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 	short k = 0;
 
 
-	for (i = 0; i < SIZE && *isDuplicate == false; i++)
+	for (i = 0; i < SIZE && *isDuplicate == false; i++) // split to functions for row, col and 3X3 matrix of the current cell
 	{
-		if (possibilities[row][i] != NULL) // split to functions
+		if (possibilities[row][i] != NULL)
 		{
 			if (i != col)
 			{
