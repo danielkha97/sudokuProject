@@ -102,8 +102,8 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
 /* This function fills in the locations with only 1 option */
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 {
-	int singleCellsFound = 0, emptyCells = 0, res = NOT_FINISH;
-	bool isDuplicate;
+	int singleCellsFound = 0, emptyCells, res = NOT_FINISH;
+	bool isDuplicate = false;
 	unsigned short minLength;;
 
 
@@ -113,6 +113,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 	{
 		minLength = 9;
 		areSingleCells = false;
+		emptyCells = 0;
 
 		for (int i = 0; i < SIZE && res != FINISH_FAILURE; i++)
 		{
@@ -146,6 +147,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 							res = FINISH_FAILURE;
 							break;
 						}
+
 						else
 						{
 							areSingleCells = true;
@@ -217,7 +219,7 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, in
 void sudokoPrintBoard(short sudokuBoard[][9])
 {
 	int i, j, k;
-
+	printf("\n\n");
 	for (i = -1; i < SIZE; i++)
 	{
 		if (i == -1)
@@ -317,7 +319,8 @@ int FillBoard(short board[][9], Array*** possibilities)
 		else
 		{
 			boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
-			sudokoPrintBoard(board);
+			if (boardStatus == NOT_FINISH)
+				sudokoPrintBoard(board);
 		}
 
 	}
@@ -344,6 +347,7 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 	arrSize = possibilities[xCoord][yCoord]->size;
 
 
+
 	printf("\n Cell [%d,%d] holds the minimum number of possible digits, please select one of the options below", xCoord, yCoord);
 
 	for (i = 0, j = 1; i < arrSize; i++, j++)
@@ -353,6 +357,7 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 
 	scanf(" %d", &userChoice);
 
+	printf("Updating cell %d with value %d\n", (9 * xCoord) + yCoord, userChoice);
 
 	chosenIndex = findIndInArray(possibilities[xCoord][yCoord]->arr, arrSize, userChoice); /* finding the ind of the digit select by the user in the array of the cell */
 	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
