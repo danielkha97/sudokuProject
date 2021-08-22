@@ -461,7 +461,7 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 	printf(" Updating cell %d with value %d\n\n", (9 * xCoord) + yCoord, userChoice);
 
 	chosenIndex = findIndInArray(possibilities[xCoord][yCoord]->arr, arrSize, userChoice); /* finding the ind of the digit select by the user in the array of the cell */
-	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
+	
 
 	if (checkAndFill(board, possibilities, xCoord, yCoord, chosenIndex))
 	{
