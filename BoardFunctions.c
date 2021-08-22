@@ -103,6 +103,7 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 {
 	int singleCellsFound = 0, emptyCells = 0, res = NOT_FINISH;
+	bool isDuplicate;
 	unsigned short minLength;;
 
 
@@ -119,12 +120,13 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 			{
 
 				/* here we check the possibilities array isn't empty and lentgh equals to 1 (for 1 cell in the mat) */
-				if (possibilities[i][j] != NULL && possibilities[i][j] -> size == 1)
+				if (possibilities[i][j] != NULL && possibilities[i][j]->size == 1)
 				{
 					int currNum;
+					bool isDuplicate = false;
 					currNum = possibilities[i][j]->arr[0];
 					areSingleCells = true;/* since there's a single cell, the board will be updated and the loop needs to repeat once more */
-					singleCellsFound++;
+					//singleCellsFound++;
 					emptyCells++;
 
 					if (!checkAndFill(board, possibilities, i, j, 0)) /* if this board is illegal */
@@ -137,11 +139,19 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 
 					else
 					{
-						updatePossibilitiesMatrix(board, possibilities, i, j, currNum); /* we update the possibilities board is there were changes to the board */
-						areSingleCells = true;
-						emptyCells--;
+						updatePossibilitiesMatrix(board, possibilities, i, j, currNum, &isDuplicate); /* we update the possibilities board is there were changes to the board */
+						if (isDuplicate)
+						{
+							areSingleCells = false;
+							res = FINISH_FAILURE;
+							break;
+						}
+						else
+						{
+							areSingleCells = true;
+							emptyCells--;
+						}
 					}
-					
 				}
 
 				/* if the cell is empty & more than one possibility, checking if it's the shortest possibilities array */
@@ -156,7 +166,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 						*y = j;
 
 						/* replacing the shortest length */
-						minLength = possibilities[i][j] -> size;
+						minLength = possibilities[i][j]->size;
 					}
 
 				}
@@ -306,10 +316,8 @@ int FillBoard(short board[][9], Array*** possibilities)
 			boardStatus = FINISH_FAILURE;
 		else
 		{
-			
 			boardStatus = OneStage(board, possibilities, &xCoord, &yCoord);
 			sudokoPrintBoard(board);
-
 		}
 
 	}
@@ -332,7 +340,7 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 {
 	int i, j, arrSize;
 	int userChoice, chosenIndex;
-
+	bool isDuplicate = false, res = true;
 	arrSize = possibilities[xCoord][yCoord]->size;
 
 
@@ -351,12 +359,19 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 
 	if (checkAndFill(board, possibilities, xCoord, yCoord, chosenIndex))
 	{
-		updatePossibilitiesMatrix(board, possibilities, xCoord, yCoord, userChoice);
-		return true;
+		updatePossibilitiesMatrix(board, possibilities, xCoord, yCoord, userChoice, &isDuplicate);
+		if (isDuplicate)
+			res = false;
+
+		else
+			res = true;
+
 	}
 
 	else
-		return false;
+		res = false;
+
+	return res;
 
 
 
@@ -384,42 +399,52 @@ int findIndInArray(short* arr, unsigned short size, int item)
 	return ind;
 }
 
-void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num)
+void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num, bool* isDuplicate)
 {
 	/* this function go over the row and col and 3X3 matrix of a specific cell (one option digit cell) and removes and filled digit from the other empty cells*/
-	short i, ind, xCoord, yCoord, prevSize;
+	short i, ind, xCoord, yCoord, prevSize, newSize;
 	short j, l;
 	short k = 0;
 
-	for (i = 0; i < SIZE; i++)
+
+	for (i = 0; i < SIZE && *isDuplicate == false; i++)
 	{
-		if (possibilities[row][i] != NULL)
+		if (possibilities[row][i] != NULL) // split to functions
 		{
 			if (i != col)
 			{
 				ind = findIndInArray(possibilities[row][i]->arr, possibilities[row][i]->size, num);
 				if (ind != NOT_FOUND)
 				{
-					short* newArr;
+
 					prevSize = possibilities[row][i]->size;
 					possibilities[row][i]->size -= 1;
-					newArr = (short*)malloc(possibilities[row][i]->size * sizeof(short));
-					checkAlloc(newArr);
-					for (l = 0; l < prevSize; l++)
+					newSize = possibilities[row][i]->size;
+					if (newSize == 0)
 					{
-						if (l != ind)
-						{
-							newArr[k] = possibilities[row][i]->arr[l];
-							k++;
-						}
+						*isDuplicate = true;
 					}
 
-					free(possibilities[row][i]->arr);
-					possibilities[row][i]->arr = newArr;
-					k = 0;
+					else
+					{
+						short* newArr;
+						newArr = (short*)malloc(possibilities[row][i]->size * sizeof(short));
+						checkAlloc(newArr);
+						for (l = 0; l < prevSize; l++)
+						{
+							if (l != ind)
+							{
+								newArr[k] = possibilities[row][i]->arr[l];
+								k++;
+							}
+						}
+
+						free(possibilities[row][i]->arr);
+						possibilities[row][i]->arr = newArr;
+						k = 0;
+					}
 				}
 			}
-
 		}
 
 		if (possibilities[i][col] != NULL)
@@ -431,22 +456,32 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 				{
 					prevSize = possibilities[i][col]->size;
 					possibilities[i][col]->size -= 1;
-					short* newArr;
-					newArr = (short*)malloc(possibilities[i][col]->size * sizeof(short));
-					checkAlloc(newArr);
-					for (l = 0; l < prevSize; l++)
-					{
-						if (l != ind)
-						{
-							newArr[k] = possibilities[i][col]->arr[l];
-							k++;
-						}
+					newSize = possibilities[i][col]->size;
 
+					if (newSize == 0)
+					{
+						*isDuplicate = true;
 					}
 
-					free(possibilities[i][col]->arr);
-					possibilities[i][col]->arr = newArr;
-					k = 0;
+					else
+					{
+						short* newArr;
+						newArr = (short*)malloc(possibilities[i][col]->size * sizeof(short));
+						checkAlloc(newArr);
+						for (l = 0; l < prevSize; l++)
+						{
+							if (l != ind)
+							{
+								newArr[k] = possibilities[i][col]->arr[l]; // make a function that copies one array to another
+								k++;
+							}
+						}
+						free(possibilities[i][col]->arr);
+						possibilities[i][col]->arr = newArr;
+						k = 0;
+					}
+
+
 				}
 			}
 
@@ -471,25 +506,33 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 					{
 						prevSize = possibilities[xCoord + i][yCoord + j]->size;
 						possibilities[xCoord + i][yCoord + j]->size -= 1;
-						short* newArr;
-						newArr = (short*)malloc(possibilities[xCoord + i][yCoord + j]->size * sizeof(short));
-						checkAlloc(newArr);
-						for (l = 0; l < prevSize; l++)
+						newSize = possibilities[xCoord + i][yCoord + j]->size;
+						if (newSize == 0)
 						{
-							if (l != ind)
-							{
-								newArr[k] = possibilities[xCoord + i][yCoord + j]->arr[l];
-								k++;
-							}
+							*isDuplicate = true;
 						}
 
-						free(possibilities[xCoord + i][yCoord + j]->arr);
-						possibilities[xCoord + i][yCoord + j]->arr = newArr;
-						k = 0;
+						else
+						{
+							short* newArr;
+							newArr = (short*)malloc(possibilities[xCoord + i][yCoord + j]->size * sizeof(short));
+							checkAlloc(newArr);
+							for (l = 0; l < prevSize; l++)
+							{
+								if (l != ind)
+								{
+									newArr[k] = possibilities[xCoord + i][yCoord + j]->arr[l];
+									k++;
+								}
+							}
+
+							free(possibilities[xCoord + i][yCoord + j]->arr);
+							possibilities[xCoord + i][yCoord + j]->arr = newArr;
+							k = 0;
+						}
 					}
+
 				}
-
-
 			}
 		}
 	}
