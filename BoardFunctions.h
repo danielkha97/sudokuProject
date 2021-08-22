@@ -13,6 +13,7 @@
 #define FAIL -1
 #define NOT_FOUND -1
 
+
 /* This function receives a sudoku board and returns a matrix of pointers to struct "Array" where every cell
  * contain the possible digits for every cell in the original board */
 Array ***PossibleDigits(short sudokuBoard[][9]);
@@ -43,7 +44,7 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 int findIndInArray(short* arr, unsigned short size, int item);
 
 /* this function updates the possibilities matrix after filling a one option digi-cell*/
-void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col);
+void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num);
 
 /* this function frees the possibilities board*/
 void freePossibilitiesBoard(Array*** possibilities);
