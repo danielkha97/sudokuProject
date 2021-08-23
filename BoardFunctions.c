@@ -655,7 +655,7 @@ void freePossibilitiesBoard(Array*** possibilities)
 			{
 				free(possibilities[i][j]->arr);
 				free(possibilities[i][j]);
-				possibilities[i][j] = NULL;
+				
 			}
 		}
 }
