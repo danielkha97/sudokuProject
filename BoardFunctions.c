@@ -461,7 +461,7 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 	printf(" Updating cell %d with value %d\n\n", (9 * xCoord) + yCoord, userChoice);
 
 	chosenIndex = findIndInArray(possibilities[xCoord][yCoord]->arr, arrSize, userChoice); /* finding the ind of the digit select by the user in the array of the cell */
-	
+
 
 	if (checkAndFill(board, possibilities, xCoord, yCoord, chosenIndex))
 	{
@@ -505,6 +505,8 @@ int findIndInArray(short* arr, unsigned short size, int item)
 	return ind;
 }
 
+
+
 void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num, bool* isDuplicate)
 {
 	/* this function go over the row and col and 3X3 matrix of a specific cell (one option digit cell) and removes and filled digit from the other empty cells*/
@@ -519,37 +521,40 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 		{
 			if (i != col)
 			{
-				ind = findIndInArray(possibilities[row][i]->arr, possibilities[row][i]->size, num);
-				if (ind != NOT_FOUND)
-				{
+				///*ind = findIndInArray(possibilities[row][i]->arr, possibilities[row][i]->size, num);
+				//if (ind != NOT_FOUND)
+				//{
 
-					prevSize = possibilities[row][i]->size;
-					possibilities[row][i]->size -= 1;
-					newSize = possibilities[row][i]->size;
-					if (newSize == 0)
-					{
-						*isDuplicate = true;
-					}
+				//	prevSize = possibilities[row][i]->size;
+				//	possibilities[row][i]->size -= 1;
+				//	newSize = possibilities[row][i]->size;
+				//	if (newSize == 0)
+				//	{
+				//		*isDuplicate = true;
+				//	}
 
-					else
-					{
-						short* newArr;
-						newArr = (short*)malloc(possibilities[row][i]->size * sizeof(short));
-						checkAlloc(newArr);
-						for (l = 0; l < prevSize; l++)
-						{
-							if (l != ind)
-							{
-								newArr[k] = possibilities[row][i]->arr[l];
-								k++;
-							}
-						}
+				//	else
+				//	{
+				//		short* newArr;
+				//		newArr = (short*)malloc(possibilities[row][i]->size * sizeof(short));
+				//		checkAlloc(newArr);
+				//		for (l = 0; l < prevSize; l++)
+				//		{
+				//			if (l != ind)
+				//			{
+				//				newArr[k] = possibilities[row][i]->arr[l];
+				//				k++;
+				//			}
+				//		}
 
-						free(possibilities[row][i]->arr);
-						possibilities[row][i]->arr = newArr;
-						k = 0;
-					}
-				}
+				//		free(possibilities[row][i]->arr);
+				//		possibilities[row][i]->arr = newArr;
+				//		k = 0;
+				//	}*/
+				//}
+
+				duplicatecheck(possibilities, row, i, num, isDuplicate);
+
 			}
 		}
 
@@ -557,38 +562,41 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 		{
 			if (i != row)
 			{
-				ind = findIndInArray(possibilities[i][col]->arr, possibilities[i][col]->size, num);
-				if (ind != NOT_FOUND)
-				{
-					prevSize = possibilities[i][col]->size;
-					possibilities[i][col]->size -= 1;
-					newSize = possibilities[i][col]->size;
+				//ind = findIndInArray(possibilities[i][col]->arr, possibilities[i][col]->size, num);
+				//if (ind != NOT_FOUND)
+				//{
+				//	prevSize = possibilities[i][col]->size;
+				//	possibilities[i][col]->size -= 1;
+				//	newSize = possibilities[i][col]->size;
 
-					if (newSize == 0)
-					{
-						*isDuplicate = true;
-					}
+				//	if (newSize == 0)
+				//	{
+				//		*isDuplicate = true;
+				//	}
 
-					else
-					{
-						short* newArr;
-						newArr = (short*)malloc(possibilities[i][col]->size * sizeof(short));
-						checkAlloc(newArr);
-						for (l = 0; l < prevSize; l++)
-						{
-							if (l != ind)
-							{
-								newArr[k] = possibilities[i][col]->arr[l]; // make a function that copies one array to another
-								k++;
-							}
-						}
-						free(possibilities[i][col]->arr);
-						possibilities[i][col]->arr = newArr;
-						k = 0;
-					}
+				//	else
+				//	{
+				//		short* newArr;
+				//		newArr = (short*)malloc(possibilities[i][col]->size * sizeof(short));
+				//		checkAlloc(newArr);
+				//		for (l = 0; l < prevSize; l++)
+				//		{
+				//			if (l != ind)
+				//			{
+				//				newArr[k] = possibilities[i][col]->arr[l]; // make a function that copies one array to another
+				//				k++;
+				//			}
+				//		}
+				//		free(possibilities[i][col]->arr);
+				//		possibilities[i][col]->arr = newArr;
+				//		k = 0;
+				//	}
 
 
-				}
+				//}
+
+
+				duplicatecheck(possibilities, i, col, num, isDuplicate);
 			}
 
 		}
@@ -607,7 +615,7 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 
 				if (xCoord + i != row || yCoord + j != col)
 				{
-					ind = findIndInArray(possibilities[xCoord + i][yCoord + j]->arr, possibilities[xCoord + i][yCoord + j]->size, num);
+					/*ind = findIndInArray(possibilities[xCoord + i][yCoord + j]->arr, possibilities[xCoord + i][yCoord + j]->size, num);
 					if (ind != NOT_FOUND)
 					{
 						prevSize = possibilities[xCoord + i][yCoord + j]->size;
@@ -636,10 +644,44 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 							possibilities[xCoord + i][yCoord + j]->arr = newArr;
 							k = 0;
 						}
-					}
+					}*/
 
+					duplicatecheck(possibilities, xCoord + i, yCoord + j, num, isDuplicate);
 				}
 			}
+		}
+	}
+}
+void duplicatecheck(Array*** possibilities, int xCord, int yCord, int num, bool* isDuplicate)
+{
+	short ind, prevSize, newSize, l, k = 0;
+	ind = findIndInArray(possibilities[xCord][yCord]->arr, possibilities[xCord][yCord]->size, num);
+	if (ind != NOT_FOUND)
+	{
+		prevSize = possibilities[xCord][yCord]->size;
+		newSize = prevSize - 1;
+		possibilities[xCord][yCord]->size = newSize;
+		if (newSize == 0)
+		{
+			*isDuplicate = true;
+		}
+
+		else
+		{
+			short* newArr;
+			newArr = (short*)malloc(newSize * sizeof(short));
+			checkAlloc(newArr);
+			for (l = 0; l < prevSize; l++)
+			{
+				if (l != ind)
+				{
+					newArr[k] = possibilities[xCord][yCord]->arr[l];
+					k++;
+				}
+			}
+
+			free(possibilities[xCord][yCord]->arr);
+			possibilities[xCord][yCord]->arr = newArr;
 		}
 	}
 }
