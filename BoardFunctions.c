@@ -771,7 +771,7 @@ void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates
 {
 	srand(time(NULL));
 	int randIndex , counter = 0;
-	int *arr = (int*)malloc(sizeof(int));
+	int *cellOptions = (int*)malloc(sizeof(int));
 
 
 
@@ -779,13 +779,13 @@ void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates
 	{
 		if (isValidNum(i, board, XCoord, YCoord))
 		{
-			arr[counter] = i;
+			cellOptions[counter] = i;
 			counter++;
 		}
 	}
 	randIndex = rand() % counter;
-	board[XCoord][YCoord] = arr[randIndex];
-	free(arr);
+	board[XCoord][YCoord] = cellOptions[randIndex];
+	free(cellOptions);
 
 
 }
