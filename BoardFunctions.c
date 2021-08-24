@@ -701,3 +701,14 @@ void freePossibilitiesBoard(Array*** possibilities)
 			}
 		}
 }
+
+Board randBoardCreation()
+{
+	int randValue;
+
+	srand(time(NULL));
+	randValue = rand() % 21;
+
+
+
+}

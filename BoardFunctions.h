@@ -3,6 +3,7 @@
 #include "GeneralFunctions.h"
 #include "Structs.h"
 
+
 #define EMPTY_CELL -1
 #define SIZE 9
 #define SPACE ' '
