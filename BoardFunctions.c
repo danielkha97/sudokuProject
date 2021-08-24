@@ -706,7 +706,7 @@ Board randBoardCreation(List boardList, short board[][SIZE])
 {
 
 	int N, K;
-	ListNode* curr;
+	ListNode* curr=NULL;
 
 	srand(time(NULL));
 	N = rand() % 21;
@@ -771,7 +771,7 @@ void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates
 {
 	srand(time(NULL));
 	int randIndex , counter = 0;
-	int arr[9] = (int*)malloc(sizeof(int));
+	int *arr = (int*)malloc(sizeof(int));
 
 
 

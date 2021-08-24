@@ -22,6 +22,8 @@ typedef struct _Board
 typedef struct _Player
 {
 	char name[100];
+	struct _Board board;
+	struct _Array*** posiibleMovesArray;
 
 }Player;
 

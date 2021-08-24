@@ -59,4 +59,7 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next);
 /* creating a list representing coordinates of a sudoku board */
 List* boardListCreation(); 
 
+/* this funtions updates a random value in a given coordinates */
+void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]);
+
 #endif /* BoardFunctions_h */
