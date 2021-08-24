@@ -46,6 +46,9 @@ int findIndInArray(short* arr, unsigned short size, int item);
 /* this function updates the possibilities matrix after filling a one option digi-cell*/
 void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num, bool *isDuplicate);
 
+/* this functions checks if deuplicates exist after filling the board with a 'single' */
+void duplicatecheck(Array*** possibilities, int xCord, int yCord, int num, bool* isDuplicate);
+
 /* this function frees the possibilities board*/
 void freePossibilitiesBoard(Array*** possibilities);
 
