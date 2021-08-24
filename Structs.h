@@ -23,7 +23,6 @@ typedef struct _Player
 {
 	char name[100];
 
-
 }Player;
 
 typedef struct _ListNode {
@@ -36,6 +35,7 @@ typedef struct _ListNode {
 }ListNode;
 typedef struct _List {
 
+	int size;
 	struct _ListNode* head;
 	struct _ListNode* tail;
 

@@ -697,18 +697,95 @@ void freePossibilitiesBoard(Array*** possibilities)
 			{
 				free(possibilities[i][j]->arr);
 				free(possibilities[i][j]);
-				
+
 			}
 		}
 }
 
-Board randBoardCreation()
+Board randBoardCreation(List boardList, short board[][SIZE])
 {
-	int randValue;
+
+	int N, K;
+	ListNode* curr;
 
 	srand(time(NULL));
-	randValue = rand() % 21;
+	N = rand() % 21;
+	for (int i = 0; i < N; i++)
+	{
+		K = rand() % boardList.size;
+		for (int j = 0; j < K; j++)
+		{
+			if (j = 0)
+				curr = boardList.head;
+			else
+				curr = curr->next;
+		}
+		updateBoardRandomly(curr->coordinates.xCoord, curr->coordinates.yCoord, board);
 
+	}
+
+
+
+
+
+}
+List* boardListCreation() // creating a list representing coordinates of a sudoku board
+{
+	int counter = 0;
+	ListNode* prev = NULL;
+	ListNode* curr = NULL;
+	List* boardList = (List*)malloc(sizeof(boardList));
+	checkAlloc(boardList);
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int j = 0; j < SIZE; j++)
+		{
+			counter++;
+			curr = nodeCreation(i, j, prev, NULL);
+			if (curr->prev == NULL)
+				boardList->head = curr;
+			boardList->tail = curr;
+			prev = curr;
+
+		}
+
+	}
+	boardList->size = counter;
+	return boardList;
+
+}
+ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next) // creates a node of a list
+{
+	ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+	checkAlloc(newNode);
+	newNode->coordinates.xCoord = XCoord;
+	newNode->coordinates.yCoord = YCoord;
+	newNode->next = next;
+	newNode->prev = prev;
+
+	return newNode;
+
+}
+void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates a legal option from an array randomly
+{
+	srand(time(NULL));
+	int randIndex , counter = 0;
+	int arr[9] = (int*)malloc(sizeof(int));
+
+
+
+	for (int i = 1; i < 10; i++)
+	{
+		if (isValidNum(i, board, XCoord, YCoord))
+		{
+			arr[counter] = i;
+			counter++;
+		}
+	}
+	randIndex = rand() % counter;
+	board[XCoord][YCoord] = arr[randIndex];
+	free(arr);
 
 
 }

@@ -53,4 +53,10 @@ void duplicatecheck(Array*** possibilities, int xCord, int yCord, int num, bool*
 /* this function frees the possibilities board*/
 void freePossibilitiesBoard(Array*** possibilities);
 
+/* creates a node of a list */
+ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next);
+
+/* creating a list representing coordinates of a sudoku board */
+List* boardListCreation(); 
+
 #endif /* BoardFunctions_h */
