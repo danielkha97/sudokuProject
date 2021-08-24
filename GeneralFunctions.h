@@ -7,7 +7,7 @@
 #include <time.h>
 
 /* A memory allocation checker function */
-void checkAlloc (void* ptr);
+void checkAlloc(void* ptr);
 
 
 #endif /* GeneralFunctions_h */

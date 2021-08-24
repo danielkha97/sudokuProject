@@ -706,7 +706,7 @@ Board randBoardCreation(List boardList, short board[][SIZE])
 {
 
 	int N, K;
-	ListNode* curr=NULL;
+	ListNode* curr = NULL;
 
 	srand(time(NULL));
 	N = rand() % 21;
@@ -770,8 +770,8 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next) /
 void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates a legal option from an array randomly
 {
 	srand(time(NULL));
-	int randIndex , counter = 0;
-	int *cellOptions = (int*)malloc(sizeof(int));
+	int randIndex, counter = 0;
+	int* cellOptions = (int*)malloc(sizeof(int));
 
 
 

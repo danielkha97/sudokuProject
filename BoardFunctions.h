@@ -17,13 +17,13 @@
 
 /* This function receives a sudoku board and returns a matrix of pointers to struct "Array" where every cell
  * contain the possible digits for every cell in the original board */
-Array ***PossibleDigits(short sudokuBoard[][9]);
+Array*** PossibleDigits(short sudokuBoard[][9]);
 
 /* This functions builds the possibilities matrix from the given sudoku board */
-Array ***initPossibilitiesMatrix(short sudokuBoard[][9]);
+Array*** initPossibilitiesMatrix(short sudokuBoard[][9]);
 
 /* This function receives an empty cell and fills the possible number for this cell */
-void fillPossibilities(Array *res, short sudokuBoard[][9], int row, int col);
+void fillPossibilities(Array* res, short sudokuBoard[][9], int row, int col);
 
 /* This functions checks if every number from 1-9 if each is a possibility for the current cell */
 bool isValidNum(short num, short sudokuBoard[][9], int row, int col);
@@ -45,7 +45,7 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 int findIndInArray(short* arr, unsigned short size, int item);
 
 /* this function updates the possibilities matrix after filling a one option digi-cell*/
-void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num, bool *isDuplicate);
+void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num, bool* isDuplicate);
 
 /* this functions checks if deuplicates exist after filling the board with a 'single' */
 void duplicatecheck(Array*** possibilities, int xCord, int yCord, int num, bool* isDuplicate);
@@ -57,7 +57,7 @@ void freePossibilitiesBoard(Array*** possibilities);
 ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next);
 
 /* creating a list representing coordinates of a sudoku board */
-List* boardListCreation(); 
+List* boardListCreation();
 
 /* this funtions updates a random value in a given coordinates */
 void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]);

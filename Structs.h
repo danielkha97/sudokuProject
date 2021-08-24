@@ -27,6 +27,23 @@ typedef struct _Player
 
 }Player;
 
+typedef struct _PlayerListNode
+{
+	struct _PlayerListNode* next;
+	struct _PlayerListNode* prev;
+	struct _Player;
+
+}PlayerListNode;
+
+typedef struct _PlayersList {
+
+	int size;
+	struct _PlayerListNode* head;
+	struct _PlayerListNode* tail;
+
+
+}PlayersList;
+
 typedef struct _ListNode {
 
 	struct _cell coordinates;
