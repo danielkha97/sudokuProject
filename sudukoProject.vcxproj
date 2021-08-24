@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActivePlayersFunction.c" />
     <ClCompile Include="BoardFunctions.c" />
     <ClCompile Include="GeneralFunctions.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActivePlayersFunctions.h" />
     <ClInclude Include="BoardFunctions.h" />
     <ClInclude Include="GeneralFunctions.h" />
     <ClInclude Include="Structs.h" />

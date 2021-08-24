@@ -1,6 +1,7 @@
 #ifndef Structs_h
 #define Structs_h
 #define SIZE 9 //check if interrupts other files
+#define MAX_LEN 100
 
 typedef struct _Array
 {
@@ -14,16 +15,11 @@ typedef struct _cell
 	int yCoord;
 }Cell;
 
-typedef struct _Board
-{
-	short*** boardStart;
-}Board;
-
 typedef struct _Player
 {
-	char name[100];
-	struct _Board board;
-	struct _Array*** posiibleMovesArray;
+	char name[MAX_LEN];
+	short **board;
+	Array ***possibiltiesMatrix;
 
 }Player;
 
@@ -31,13 +27,13 @@ typedef struct _PlayerListNode
 {
 	struct _PlayerListNode* next;
 	struct _PlayerListNode* prev;
-	struct _Player;
+	Player *player;
 
 }PlayerListNode;
 
 typedef struct _PlayersList {
 
-	int size;
+	int listLen;
 	struct _PlayerListNode* head;
 	struct _PlayerListNode* tail;
 
@@ -46,7 +42,7 @@ typedef struct _PlayersList {
 
 typedef struct _ListNode {
 
-	struct _cell coordinates;
+	Cell *coordinates;
 	struct _listnode* next;
 	struct _listnode* prev;
 
@@ -54,7 +50,7 @@ typedef struct _ListNode {
 }ListNode;
 typedef struct _List {
 
-	int size;
+	int listLen;
 	struct _ListNode* head;
 	struct _ListNode* tail;
 

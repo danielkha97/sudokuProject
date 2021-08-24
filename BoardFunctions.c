@@ -521,40 +521,7 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 		{
 			if (i != col)
 			{
-				///*ind = findIndInArray(possibilities[row][i]->arr, possibilities[row][i]->size, num);
-				//if (ind != NOT_FOUND)
-				//{
-
-				//	prevSize = possibilities[row][i]->size;
-				//	possibilities[row][i]->size -= 1;
-				//	newSize = possibilities[row][i]->size;
-				//	if (newSize == 0)
-				//	{
-				//		*isDuplicate = true;
-				//	}
-
-				//	else
-				//	{
-				//		short* newArr;
-				//		newArr = (short*)malloc(possibilities[row][i]->size * sizeof(short));
-				//		checkAlloc(newArr);
-				//		for (l = 0; l < prevSize; l++)
-				//		{
-				//			if (l != ind)
-				//			{
-				//				newArr[k] = possibilities[row][i]->arr[l];
-				//				k++;
-				//			}
-				//		}
-
-				//		free(possibilities[row][i]->arr);
-				//		possibilities[row][i]->arr = newArr;
-				//		k = 0;
-				//	}*/
-				//}
-
 				duplicatecheck(possibilities, row, i, num, isDuplicate);
-
 			}
 		}
 
@@ -562,40 +529,6 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 		{
 			if (i != row)
 			{
-				//ind = findIndInArray(possibilities[i][col]->arr, possibilities[i][col]->size, num);
-				//if (ind != NOT_FOUND)
-				//{
-				//	prevSize = possibilities[i][col]->size;
-				//	possibilities[i][col]->size -= 1;
-				//	newSize = possibilities[i][col]->size;
-
-				//	if (newSize == 0)
-				//	{
-				//		*isDuplicate = true;
-				//	}
-
-				//	else
-				//	{
-				//		short* newArr;
-				//		newArr = (short*)malloc(possibilities[i][col]->size * sizeof(short));
-				//		checkAlloc(newArr);
-				//		for (l = 0; l < prevSize; l++)
-				//		{
-				//			if (l != ind)
-				//			{
-				//				newArr[k] = possibilities[i][col]->arr[l]; // make a function that copies one array to another
-				//				k++;
-				//			}
-				//		}
-				//		free(possibilities[i][col]->arr);
-				//		possibilities[i][col]->arr = newArr;
-				//		k = 0;
-				//	}
-
-
-				//}
-
-
 				duplicatecheck(possibilities, i, col, num, isDuplicate);
 			}
 
@@ -615,37 +548,6 @@ void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row
 
 				if (xCoord + i != row || yCoord + j != col)
 				{
-					/*ind = findIndInArray(possibilities[xCoord + i][yCoord + j]->arr, possibilities[xCoord + i][yCoord + j]->size, num);
-					if (ind != NOT_FOUND)
-					{
-						prevSize = possibilities[xCoord + i][yCoord + j]->size;
-						possibilities[xCoord + i][yCoord + j]->size -= 1;
-						newSize = possibilities[xCoord + i][yCoord + j]->size;
-						if (newSize == 0)
-						{
-							*isDuplicate = true;
-						}
-
-						else
-						{
-							short* newArr;
-							newArr = (short*)malloc(possibilities[xCoord + i][yCoord + j]->size * sizeof(short));
-							checkAlloc(newArr);
-							for (l = 0; l < prevSize; l++)
-							{
-								if (l != ind)
-								{
-									newArr[k] = possibilities[xCoord + i][yCoord + j]->arr[l];
-									k++;
-								}
-							}
-
-							free(possibilities[xCoord + i][yCoord + j]->arr);
-							possibilities[xCoord + i][yCoord + j]->arr = newArr;
-							k = 0;
-						}
-					}*/
-
 					duplicatecheck(possibilities, xCoord + i, yCoord + j, num, isDuplicate);
 				}
 			}
@@ -701,18 +603,22 @@ void freePossibilitiesBoard(Array*** possibilities)
 			}
 		}
 }
+void removeFromList(List list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
+{
+   //make function here
+}
 
-Board randBoardCreation(List boardList, short board[][SIZE])
+short **randBoardCreation(List boardList)
 {
 
 	int N, K;
 	ListNode* curr = NULL;
-
+	short board[SIZE][SIZE] = { -1 };
 	srand(time(NULL));
 	N = rand() % 21;
 	for (int i = 0; i < N; i++)
 	{
-		K = rand() % boardList.size;
+		K = rand() % boardList.listLen;
 		for (int j = 0; j < K; j++)
 		{
 			if (j = 0)
@@ -720,8 +626,8 @@ Board randBoardCreation(List boardList, short board[][SIZE])
 			else
 				curr = curr->next;
 		}
-		updateBoardRandomly(curr->coordinates.xCoord, curr->coordinates.yCoord, board);
-
+		updateBoardRandomly(curr->coordinates-> xCoord, curr->coordinates->yCoord, board);
+		removeFromList(boardList, curr);
 	}
 
 
@@ -747,11 +653,10 @@ List* boardListCreation() // creating a list representing coordinates of a sudok
 				boardList->head = curr;
 			boardList->tail = curr;
 			prev = curr;
-
 		}
 
 	}
-	boardList->size = counter;
+	boardList -> listLen= counter;
 	return boardList;
 
 }
@@ -759,8 +664,8 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next) /
 {
 	ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
 	checkAlloc(newNode);
-	newNode->coordinates.xCoord = XCoord;
-	newNode->coordinates.yCoord = YCoord;
+	newNode->coordinates->xCoord = XCoord;
+	newNode->coordinates->yCoord = YCoord;
 	newNode->next = next;
 	newNode->prev = prev;
 
@@ -769,11 +674,8 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next) /
 }
 void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates a legal option from an array randomly
 {
-	srand(time(NULL));
 	int randIndex, counter = 0;
-	int* cellOptions = (int*)malloc(sizeof(int));
-
-
+	int* cellOptions = (int*)malloc(SIZE * sizeof(int));
 
 	for (int i = 1; i < 10; i++)
 	{
@@ -786,6 +688,4 @@ void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates
 	randIndex = rand() % counter;
 	board[XCoord][YCoord] = cellOptions[randIndex];
 	free(cellOptions);
-
-
 }

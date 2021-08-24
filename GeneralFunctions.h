@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h> 
 #include <time.h>
+#include <math.h>
 
 /* A memory allocation checker function */
 void checkAlloc(void* ptr);
