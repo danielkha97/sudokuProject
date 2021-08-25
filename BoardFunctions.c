@@ -605,7 +605,34 @@ void freePossibilitiesBoard(Array*** possibilities)
 }
 void removeFromList(List list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
 {
-   //make function here
+	ListNode* toDelete;
+
+	if (node == list.head) // the node is the head of the list
+	{
+		toDelete = node;
+		list.head = toDelete->next;
+		list.head->prev = NULL;
+		free(toDelete);
+	}
+
+	else if (node == list.tail) // the node is the tail of the list
+	{
+		toDelete = node;
+		list.tail = toDelete->prev;
+		list.tail->next = NULL;
+		free(toDelete);
+	}
+
+	else // the node is between the head and tail of the list
+	{
+		ListNode *before, * after;
+		before = node->prev;
+		after = node->next;
+		toDelete = node;
+		before->next = after;
+		after->prev = before;
+		free(toDelete);
+	}
 }
 
 short **randBoardCreation(List boardList)
@@ -642,6 +669,7 @@ List* boardListCreation() // creating a list representing coordinates of a sudok
 	ListNode* curr = NULL;
 	List* boardList = (List*)malloc(sizeof(boardList));
 	checkAlloc(boardList);
+	makeEmptyList(boardList);
 
 	for (int i = 0; i < SIZE; i++)
 	{
