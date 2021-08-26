@@ -6,7 +6,7 @@
 
 
 
-Player* createPlayer(char name[MAX_LEN]);
+//Player* createPlayer(char name[MAX_LEN]);
 
 
 
