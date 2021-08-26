@@ -6,9 +6,12 @@
 #include <stdbool.h> 
 #include <time.h>
 #include <math.h>
+#include "Structs.h"
 
 /* A memory allocation checker function */
 void checkAlloc(void* ptr);
 
+bool isEmptyList(List* lst);
 
+void makeEmptyList(List* lst);
 #endif /* GeneralFunctions_h */
