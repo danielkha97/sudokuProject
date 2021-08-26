@@ -603,24 +603,26 @@ void freePossibilitiesBoard(Array*** possibilities)
 			}
 		}
 }
-void removeFromList(List list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
+void removeFromList(List *list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
 {
 	ListNode* toDelete;
 
-	if (node == list.head) // the node is the head of the list
+	if (node == list->head) // the node is the head of the list
 	{
 		toDelete = node;
-		list.head = toDelete->next;
-		list.head->prev = NULL;
+		list->head = toDelete->next;
+		list->head->prev = NULL;
 		free(toDelete);
+		
 	}
 
-	else if (node == list.tail) // the node is the tail of the list
+	else if (node == list->tail) // the node is the tail of the list
 	{
 		toDelete = node;
-		list.tail = toDelete->prev;
-		list.tail->next = NULL;
+		list->tail = toDelete->prev;
+		list->tail->next = NULL;
 		free(toDelete);
+		
 	}
 
 	else // the node is between the head and tail of the list
@@ -632,10 +634,12 @@ void removeFromList(List list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
 		before->next = after;
 		after->prev = before;
 		free(toDelete);
+		
 	}
+	list->listLen--;
 }
 
-short **randBoardCreation(List boardList)
+short **randBoardCreation(List *boardList)
 {
 
 	int N, K;
@@ -645,11 +649,11 @@ short **randBoardCreation(List boardList)
 	N = rand() % 21;
 	for (int i = 0; i < N; i++)
 	{
-		K = rand() % boardList.listLen;
+		K = rand() % boardList->listLen;
 		for (int j = 0; j < K; j++)
 		{
 			if (j = 0)
-				curr = boardList.head;
+				curr = boardList->head;
 			else
 				curr = curr->next;
 		}
@@ -717,3 +721,4 @@ void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates
 	board[XCoord][YCoord] = cellOptions[randIndex];
 	free(cellOptions);
 }
+

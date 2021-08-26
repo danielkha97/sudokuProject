@@ -17,7 +17,7 @@ typedef struct _cell
 
 typedef struct _Player
 {
-	char name[MAX_LEN];
+	char* name;
 	short **board;
 	Array ***possibiltiesMatrix;
 
