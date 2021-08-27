@@ -401,7 +401,6 @@ void sudokoPrintBoard(short sudokuBoard[][9])
 
 }
 
-
 int FillBoard(short board[][9], Array*** possibilities)
 {
 	int boardStatus, xCoord, yCoord, gameStatus;
@@ -437,8 +436,6 @@ int FillBoard(short board[][9], Array*** possibilities)
 
 	return gameStatus;
 }
-
-
 bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yCoord)
 {
 	int i, j, arrSize;
@@ -482,7 +479,6 @@ bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yC
 
 
 }
-
 int findIndInArray(short* arr, unsigned short size, int item)
 {
 	int left, right, mid, ind;
@@ -504,9 +500,6 @@ int findIndInArray(short* arr, unsigned short size, int item)
 
 	return ind;
 }
-
-
-
 void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num, bool* isDuplicate)
 {
 	/* this function go over the row and col and 3X3 matrix of a specific cell (one option digit cell) and removes and filled digit from the other empty cells*/
@@ -587,7 +580,6 @@ void duplicatecheck(Array*** possibilities, int xCord, int yCord, int num, bool*
 		}
 	}
 }
-
 void freePossibilitiesBoard(Array*** possibilities)
 {
 	int i, j;
@@ -603,7 +595,6 @@ void freePossibilitiesBoard(Array*** possibilities)
 			}
 		}
 }
-
 void removeFromList(List* list, ListNode* node) 
 {
 	ListNode* toDelete;
@@ -639,21 +630,34 @@ void removeFromList(List* list, ListNode* node)
 	}
 	list->listLen--;
 }
-
 short** randBoardCreation(List* boardList)
 {
 
-	int N, K;
+	int N, K, i, j;
 	ListNode* curr = NULL;
-	short board[SIZE][SIZE] = { -1 };
+	short** board = (short**)malloc(SIZE*sizeof(short*));
+	checkAlloc(board);
+
+	for (i = 0; i < SIZE; i++)
+	{
+		board[i] = (short*)malloc(sizeof(short));
+		checkAlloc(board[i]);
+	}
+
+	for(i = 0 ; i < SIZE ; i++)
+		for (j = 0; j < SIZE; j++)
+		{
+			board[i][j] = -1;
+		}
+	
 	srand(time(NULL));
 	N = rand() % 21;
-	for (int i = 0; i < N; i++)
+	for (i = 0; i < N; i++)
 	{
 		K = rand() % boardList->listLen;
 		for (int j = 0; j < K; j++)
 		{
-			if (j = 0)
+			if (j == 0)
 				curr = boardList->head;
 			else
 				curr = curr->next;

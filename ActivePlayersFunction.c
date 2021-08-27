@@ -166,9 +166,19 @@ PlayerTNODE* createNewTNODE(PlayerListNode* data, PlayerTNODE* left, PlayerTNODE
 }
 PlayerTree BuildPlayerTree(PlayerListNode** arr, int size)
 {
+	int n, power;
 	PlayerTree res;
+	power = ceil(log(size) / log(2)); 
+	n = pow(2, power) - 1;
 
-	res.root = BuildPlayerTreeRec(arr, size);
+	arr = (PlayerListNode**)realloc(arr, n * sizeof(PlayerListNode*));
+	checkAlloc(arr);
+
+	for (int i = size - 1; i < n; i++)
+	{
+		arr[i] = NULL;
+	}
+	res.root = BuildPlayerTreeRec(arr, n);
 
 	return res;
 }
@@ -182,7 +192,7 @@ PlayerTNODE* BuildPlayerTreeRec(PlayerListNode** arr, int size)
 	else
 	{
 		left = BuildPlayerTreeRec(arr, size / 2);
-		right = BuildPlayerTreeRec(arr + (size / 2 + 1), size / 2);
+		right = BuildPlayerTreeRec(arr + ((size / 2) + 1), size / 2);
 		root = createNewTNODE(arr[size / 2], left, right);
 	}
 
