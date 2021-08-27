@@ -3,35 +3,60 @@
 #include "GeneralFunctions.h"
 #include "BoardFunctions.h"
 
-//void createActivePlayers()
-//{
-//	int X; // active players list length
-//
-//	printf("\n");
-//	printf("Please enter the number of active players: ");
-//	scanf("%d", &X);
-//	//List ActivePlayers = createEmptyList();
-//	char name[MAX_LEN];
-//
-//	for (; X > 0; X--)
-//	{
-//		printf("\n");
-//		printf("Please enter player's name: ");
-//		scanf("%s", name);
-//		createPlayer(name);
-//		//create node+add player
-//
-//	}
-//}
-//
-//Player* createPlayer(char name[MAX_LEN])
-//{
-//	Player* player = (Player*)malloc(sizeof(Player));
-//	checkAlloc(player);
-//	player->board = randBoardCreation(boardListCreation());
-//	player->name = *name;
-//	player->possibiltiesMatrix = PossibleDigits(player->board);
-//	return player;
-//
-//
-//}
+PlayersList* CreateActivePlayersList()
+{
+	int X; // active players list length
+	PlayerListNode* curr = NULL;
+	PlayerListNode* prev = NULL;
+
+	printf("\n");
+	printf("Please enter the number of active players: ");
+	scanf("%d", &X);
+	PlayersList* activePlayers = (PlayersList*)malloc(sizeof(PlayersList));
+	makeEmptyPlayersList(activePlayers);
+	activePlayers->listLen = X;
+	char name[MAX_LEN];
+
+	for (; X > 0; X--)
+	{
+
+		printf("\n");
+		printf("Please enter player's name: ");
+		scanf("%s", name);
+		curr = playersListNodeCreation(createPlayer(name)); // creating a player with the given name and creates a PlayerListNode with the same player
+		if (prev == NULL) // if that's the first node created, then it's the head of the list
+			activePlayers->head = curr;
+		activePlayers->tail = curr;  // the last node created will be the tail of the list
+		curr->prev = prev;
+		prev = curr;
+	}
+	return activePlayers;
+}
+
+Player* createPlayer(char name[MAX_LEN])
+{
+	Player* player = (Player*)malloc(sizeof(Player));//memAlloc
+	checkAlloc(player);
+	player->board = randBoardCreation(boardListCreation()); // creates a random game board for the player
+	player->name = *name; // received name is inserted to the struct
+	player->possibiltiesMatrix = PossibleDigits(player->board); // 'possibilities' board is created for the random board of the player
+	return player;
+}
+
+
+//Players list functions
+bool isEmptyPlayersList(PlayersList* lst)
+{
+	return (lst->head == NULL);
+}
+void makeEmptyPlayersList(PlayersList* lst)
+{
+	lst->head = lst->tail = NULL;
+}
+PlayerListNode* playersListNodeCreation(Player* player)
+{
+	PlayerListNode* node = (PlayerListNode*)malloc(sizeof(PlayerListNode));
+	checkAlloc(node);
+	node->player = player;
+	return node;
+}

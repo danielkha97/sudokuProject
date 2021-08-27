@@ -63,7 +63,7 @@ List* boardListCreation();
 void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]);
 
 /* this function removes a list node from a given list */
-void removeFromList(List *list, ListNode* node);
+void removeFromList(List* list, ListNode* node);
 
 /* this function creates randomize a game board and return a pointer to it */
 short** randBoardCreation(List* boardList);

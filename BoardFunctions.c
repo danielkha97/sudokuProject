@@ -603,7 +603,7 @@ void freePossibilitiesBoard(Array*** possibilities)
 			}
 		}
 }
-void removeFromList(List *list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
+void removeFromList(List* list, ListNode* node) //!!!!!!!!!!!!!!!!!!!!
 {
 	ListNode* toDelete;
 
@@ -613,7 +613,7 @@ void removeFromList(List *list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
 		list->head = toDelete->next;
 		list->head->prev = NULL;
 		free(toDelete);
-		
+
 	}
 
 	else if (node == list->tail) // the node is the tail of the list
@@ -622,24 +622,24 @@ void removeFromList(List *list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
 		list->tail = toDelete->prev;
 		list->tail->next = NULL;
 		free(toDelete);
-		
+
 	}
 
 	else // the node is between the head and tail of the list
 	{
-		ListNode *before, * after;
+		ListNode* before, * after;
 		before = node->prev;
 		after = node->next;
 		toDelete = node;
 		before->next = after;
 		after->prev = before;
 		free(toDelete);
-		
+
 	}
 	list->listLen--;
 }
 
-short **randBoardCreation(List *boardList)
+short** randBoardCreation(List* boardList)
 {
 
 	int N, K;
@@ -657,7 +657,7 @@ short **randBoardCreation(List *boardList)
 			else
 				curr = curr->next;
 		}
-		updateBoardRandomly(curr->coordinates-> xCoord, curr->coordinates->yCoord, board);
+		updateBoardRandomly(curr->coordinates->xCoord, curr->coordinates->yCoord, board);
 		removeFromList(boardList, curr);
 	}
 
@@ -688,7 +688,7 @@ List* boardListCreation() // creating a list representing coordinates of a sudok
 		}
 
 	}
-	boardList -> listLen= counter;
+	boardList->listLen = counter;
 	return boardList;
 
 }
