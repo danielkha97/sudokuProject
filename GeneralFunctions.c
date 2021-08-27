@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "GeneralFunctions.h"
 
 void checkAlloc(void* ptr)

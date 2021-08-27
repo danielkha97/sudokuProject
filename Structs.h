@@ -34,9 +34,8 @@ typedef struct _PlayerListNode
 typedef struct _PlayersList {
 
 	int listLen;
-	struct _PlayerListNode* head;
-	struct _PlayerListNode* tail;
-
+	PlayerListNode* head;
+	PlayerListNode* tail;
 
 }PlayersList;
 
@@ -48,11 +47,12 @@ typedef struct _ListNode {
 
 
 }ListNode;
+
 typedef struct _List {
 
 	int listLen;
-	struct _ListNode* head;
-	struct _ListNode* tail;
+	ListNode* head;
+	ListNode* tail;
 
 }List;
 
