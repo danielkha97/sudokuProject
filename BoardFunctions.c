@@ -603,7 +603,7 @@ void freePossibilitiesBoard(Array*** possibilities)
 			}
 		}
 }
-void removeFromList(List *list,ListNode* node) //!!!!!!!!!!!!!!!!!!!!
+void removeFromList(List *list,ListNode* node)
 {
 	ListNode* toDelete;
 

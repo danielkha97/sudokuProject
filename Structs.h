@@ -56,5 +56,16 @@ typedef struct _List {
 
 }List;
 
+typedef struct _PlayerTNODE
+{
+	PlayerListNode *playerLNode;
+	struct _PlayerTNODE* left;
+	struct _PlayerTNODE* right;
+}PlayerTNODE;
+
+typedef struct _PlayerTree
+{
+	PlayerTNODE *root;
+}PlayerTree;
 
 #endif  /* Structs_h */
