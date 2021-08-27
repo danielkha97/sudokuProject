@@ -721,4 +721,16 @@ void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates
 	board[XCoord][YCoord] = cellOptions[randIndex];
 	free(cellOptions);
 }
-
+int countBoardFullCells(short** board)
+{
+	int counter = 0;
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int j = 0; j < SIZE; j++)
+		{
+			if (board[i][j] != EMPTY_CELL)
+				counter++;
+		}
+	}
+	return counter;
+}

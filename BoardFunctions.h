@@ -68,4 +68,7 @@ void removeFromList(List* list, ListNode* node);
 /* this function creates randomize a game board and return a pointer to it */
 short** randBoardCreation(List* boardList);
 
+/* this functions counts the number of full cells in a board */
+int countBoardFullCells(short** board);
+
 #endif /* BoardFunctions_h */
