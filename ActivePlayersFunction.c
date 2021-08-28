@@ -178,6 +178,7 @@ PlayerTree BuildPlayerTree(PlayerListNode** arr, int size)
 	{
 		arr[i] = NULL;
 	}
+
 	res.root = BuildPlayerTreeRec(arr, n);
 
 	return res;
@@ -192,9 +193,18 @@ PlayerTNODE* BuildPlayerTreeRec(PlayerListNode** arr, int size)
 	else
 	{
 		left = BuildPlayerTreeRec(arr, size / 2);
-		right = BuildPlayerTreeRec(arr + ((size / 2) + 1), size / 2);
+		right = BuildPlayerTreeRec(arr + (size / 2 + 1), size / 2);
 		root = createNewTNODE(arr[size / 2], left, right);
 	}
 
 	return root;
+}
+
+//gamePlay functions for active players
+void startGame(PlayersList* activePlayersList, PlayerTree activePlayersTree, PlayersList* winningPlayersList)
+{
+	while (!isEmptyPlayersList(activePlayersList))
+	{
+		
+	}
 }

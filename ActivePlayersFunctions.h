@@ -34,5 +34,8 @@ PlayerTNODE* createNewTNODE(PlayerListNode* data, PlayerTNODE* left, PlayerTNODE
 PlayerTree BuildPlayerTree(PlayerListNode** arr, int size);
 PlayerTNODE* BuildPlayerTreeRec(PlayerListNode** arr, int size);
 
+/* there are the function for the actual game play for the active players */
+void startGame(PlayersList* activePlayersList, PlayerTree activePlayersTree, PlayersList* winningPlayersList);
+
 #endif /* ACTIVE_PLAYERS_h */
 
