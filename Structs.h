@@ -18,8 +18,8 @@ typedef struct _cell
 typedef struct _Player
 {
 	char* name;
-	short **board;
-	Array ***possibiltiesMatrix;
+	short** board;
+	Array*** possibiltiesMatrix;
 
 }Player;
 
@@ -27,7 +27,7 @@ typedef struct _PlayerListNode
 {
 	struct _PlayerListNode* next;
 	struct _PlayerListNode* prev;
-	Player *player;
+	Player* player;
 
 }PlayerListNode;
 
@@ -41,7 +41,7 @@ typedef struct _PlayersList {
 
 typedef struct _ListNode {
 
-	Cell *coordinates;
+	Cell* coordinates;
 	struct _listnode* next;
 	struct _listnode* prev;
 
@@ -58,14 +58,14 @@ typedef struct _List {
 
 typedef struct _PlayerTNODE
 {
-	PlayerListNode *playerLNode;
+	PlayerListNode* playerLNode;
 	struct _PlayerTNODE* left;
 	struct _PlayerTNODE* right;
 }PlayerTNODE;
 
 typedef struct _PlayerTree
 {
-	PlayerTNODE *root;
+	PlayerTNODE* root;
 }PlayerTree;
 
 #endif  /* Structs_h */

@@ -1,14 +1,15 @@
 #include "ActivePlayersFunctions.h"
 
-PlayersList* CreateActivePlayersList()
+PlayersList* CreateActivePlayersList(int* numOfPlayers)
 {
 	int X; // active players list length
 	PlayerListNode* curr = NULL;
 	PlayerListNode* prev = NULL;
 
 	printf("\n");
-	printf("Please enter the number of active players: ");
+	printf("    Please enter the number of active players: ");
 	scanf("%d", &X);
+	*numOfPlayers = X;
 	PlayersList* activePlayers = (PlayersList*)malloc(sizeof(PlayersList));
 	makeEmptyPlayersList(activePlayers);
 	activePlayers->listLen = X;
@@ -18,7 +19,7 @@ PlayersList* CreateActivePlayersList()
 	{
 
 		printf("\n");
-		printf("Please enter player's name: ");
+		printf("    Please enter player's name: ");
 		scanf("%s", name);
 		curr = playersListNodeCreation(createPlayer(name)); // creating a player with the given name and creates a PlayerListNode with the same player
 		if (prev == NULL) // if that's the first node created, then it's the head of the list
@@ -168,7 +169,7 @@ PlayerTree BuildPlayerTree(PlayerListNode** arr, int size)
 {
 	int n, power;
 	PlayerTree res;
-	power = ceil(log(size) / log(2)); 
+	power = ceil(log(size) / log(2));
 	n = pow(2, power) - 1;
 
 	arr = (PlayerListNode**)realloc(arr, n * sizeof(PlayerListNode*));
@@ -200,3 +201,33 @@ PlayerTNODE* BuildPlayerTreeRec(PlayerListNode** arr, int size)
 	return root;
 }
 
+//gamePlay functions for active players
+void printSudokuLogo()
+{
+	printf("    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+	printf("    |   Welcome to Sudoku Game !  | \n");
+	printf("    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+
+}
+void startGame()
+{
+
+	Array*** possible_solutions;
+	PlayersList* playersList, * winnersList;
+	PlayerListNode** activePlayersArr;
+	PlayerTree playersTree;
+	int numOfPlayers = 0;
+
+	printSudokuLogo();
+	printf("    Press enter to start playing...\n");
+	getchar();
+
+	playersList = CreateActivePlayersList(&numOfPlayers);
+	winnersList = (PlayersList*)malloc(sizeof(PlayersList));
+	checkAlloc(winnersList);
+	makeEmptyPlayersList(winnersList);
+	activePlayersArr = activePlayersArrayCreation(playersList);
+	playersTree = BuildPlayerTree(activePlayersArr, numOfPlayers);
+	gamePlay(playersList, winnersList, &playersTree);
+
+}

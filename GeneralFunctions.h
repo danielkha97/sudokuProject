@@ -1,6 +1,9 @@
 #ifndef GeneralFunctions_h
 #define GeneralFunctions_h
 #define _CRT_SECURE_NO_WARNINGS
+
+/* This header files contains all of the project's essential libraries and functions*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,6 +11,9 @@
 #include <time.h>
 #include <math.h>
 #include "Structs.h"
+#include "WinningPlayersFunctions.h"
+#include "BoardFunctions.h"
+#include "ActivePlayersFunctions.h"
 
 /* A memory allocation checker function */
 void checkAlloc(void* ptr);

@@ -1,4 +1,3 @@
-
 #include "BoardFunctions.h"
 
 
@@ -595,7 +594,7 @@ void freePossibilitiesBoard(Array*** possibilities)
 			}
 		}
 }
-void removeFromList(List* list, ListNode* node) 
+void removeFromList(List* list, ListNode* node)
 {
 	ListNode* toDelete;
 
@@ -635,21 +634,21 @@ short** randBoardCreation(List* boardList)
 
 	int N, K, i, j;
 	ListNode* curr = NULL;
-	short** board = (short**)malloc(SIZE*sizeof(short*));
+	short** board = (short**)malloc(SIZE * sizeof(short*));
 	checkAlloc(board);
 
 	for (i = 0; i < SIZE; i++)
 	{
-		board[i] = (short*)malloc(sizeof(short));
+		board[i] = (short*)malloc(SIZE * sizeof(short));
 		checkAlloc(board[i]);
 	}
 
-	for(i = 0 ; i < SIZE ; i++)
+	for (i = 0; i < SIZE; i++)
 		for (j = 0; j < SIZE; j++)
 		{
 			board[i][j] = -1;
 		}
-	
+
 	srand(time(NULL));
 	N = rand() % 21;
 	for (i = 0; i < N; i++)
@@ -665,7 +664,7 @@ short** randBoardCreation(List* boardList)
 		updateBoardRandomly(curr->coordinates->xCoord, curr->coordinates->yCoord, board);
 		removeFromList(boardList, curr);
 	}
-    
+
 	return board;
 }
 List* boardListCreation() // creating a list representing coordinates of a sudoku board
@@ -698,6 +697,8 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next) /
 {
 	ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
 	checkAlloc(newNode);
+	newNode->coordinates = (Cell*)malloc(sizeof(Cell));
+	checkAlloc(newNode->coordinates);
 	newNode->coordinates->xCoord = XCoord;
 	newNode->coordinates->yCoord = YCoord;
 	newNode->next = next;

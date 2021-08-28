@@ -1,9 +1,8 @@
 #ifndef ACTIVE_PLAYERS_h
 #define ACTIVE_PLAYERS_h
 
-#include "Structs.h"
-#include "BoardFunctions.h"
 #include "GeneralFunctions.h"
+
 
 //Players list functions
 bool isEmptyPlayersList(PlayersList* lst);
@@ -17,8 +16,8 @@ PlayerListNode* playersListNodeCreation(Player* player);
 //Players list functions
 bool isEmptyPlayersList(PlayersList* lst);
 void makeEmptyPlayersList(PlayersList* lst);
-PlayersList* CreateActivePlayersList();// receives the number of active players list and creates the list from user's input
-PlayerListNode* playersListNodeCreation(Player* player);//creates a player list node from a given player
+PlayersList* CreateActivePlayersList(int* numOfPlayers); // receives the number of active players list and creates the list from user's input
+PlayerListNode* playersListNodeCreation(Player* player); //creates a player list node from a given player
 
 //Creates a new var from type Player
 Player* createPlayer(char name[MAX_LEN]);
@@ -35,7 +34,8 @@ PlayerTree BuildPlayerTree(PlayerListNode** arr, int size);
 PlayerTNODE* BuildPlayerTreeRec(PlayerListNode** arr, int size);
 
 /* there are the function for the actual game play for the active players */
-void startGame(PlayersList* activePlayersList, PlayerTree activePlayersTree, PlayersList* winningPlayersList);
+void startGame();
+void printSudokuLogo();
 
 #endif /* ACTIVE_PLAYERS_h */
 
