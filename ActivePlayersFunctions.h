@@ -1,15 +1,16 @@
 #ifndef ACTIVE_PLAYERS_h
 #define ACTIVE_PLAYERS_h
 
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdlib.h>
 #include "GeneralFunctions.h"
+#include "BoardFunctions.h"
 
 
 //Players list functions
 bool isEmptyPlayersList(PlayersList* lst);
 void makeEmptyPlayersList(PlayersList* lst);
-
-// receives the number of active players list and creates the list from user's input
-PlayersList* CreateActivePlayersList();
+void addPlayerNodeToList(PlayerListNode* player, PlayersList* list);
 
 //creates a player list node from a given player
 PlayerListNode* playersListNodeCreation(Player* player);
@@ -36,6 +37,8 @@ PlayerTNODE* BuildPlayerTreeRec(PlayerListNode** arr, int size);
 /* there are the function for the actual game play for the active players */
 void startGame();
 void printSudokuLogo();
+void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners);
+void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners, int* x, int* y);
 
 #endif /* ACTIVE_PLAYERS_h */
 

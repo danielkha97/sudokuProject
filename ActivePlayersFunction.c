@@ -209,6 +209,7 @@ void printSudokuLogo()
 	printf("    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 
 }
+
 void startGame()
 {
 
@@ -230,4 +231,134 @@ void startGame()
 	playersTree = BuildPlayerTree(activePlayersArr, numOfPlayers);
 	gamePlay(playersList, winnersList, &playersTree);
 
+}
+void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree)
+{
+	//loop while the active players isn't empty
+
+	//tree scanning (in order)
+
+	//for every player -> oneStage 
+	  //if onestage-> FINISH_SUCCESS
+		//winner -> delete from active players list, TNODE pointing to NULL
+	  //if lost -> FINISH_FAILURE
+		// LOSER - > delete from active player list, TNODE pointing to NULL
+	  //if the game isn't finished -> NOT_FINISH 
+		// getting user's input and using FillBoard to continue
+
+	while (!isEmptyPlayersList(activePlayers))
+	{
+		int x, y;
+		treeScan(tree->root, activePlayers, winners, &x, &y);
+	}
+
+}
+void addPlayerNodeToList(PlayerListNode* player, PlayersList* list)
+{
+	if (list->head == NULL)
+	{
+		list->head = player;
+		list->tail = player;
+		list->listLen++;
+	}
+	else
+	{
+		PlayerListNode* curr = list->head;
+		for (int i = 0; i < list->listLen - 1; i++)
+		{
+			curr = curr->next;
+		}
+		curr->next = player;
+		list->tail = player;
+		list->listLen++;
+	}
+}
+void removePlayerFromList(PlayerListNode* player, PlayersList* list)
+{
+	if (list->head == player)
+	{
+		if (player->next != NULL) {
+			list->head = player->next;
+			player->next->prev = NULL;
+		}
+		else
+			list->head = NULL;
+	}
+	if (list->tail == player)
+	{
+		if (player->prev != NULL) {
+			list->tail = player->prev;
+			player->prev->next = NULL;
+		}
+		else
+			list->tail = NULL;
+
+	}
+	if (player->prev != NULL)
+	{
+		if (player->next != NULL)
+		{
+			player->prev->next = player->next;
+			player->next->prev = player->prev;
+		}
+		else
+			player->prev->next = NULL;
+	}
+	if (player->next != NULL)
+	{
+		if (player->prev != NULL)
+		{
+			player->next->prev = player->prev;
+			player->prev->next = player->next;
+		}
+		else
+			player->next->prev = NULL;
+	}
+
+	list->listLen--;
+}
+
+void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners, int* x, int* y)
+{
+	if (node->left == NULL && node->right == NULL)
+	{
+		if (node->playerLNode != NULL)
+			playersTurn(node, activePlayers, winners);
+		return;
+	}
+
+	if (node->left != NULL)
+	{
+		treeScan(node->left, activePlayers, winners, x, y);
+	}
+	if (node->playerLNode != NULL)
+	{
+		playersTurn(node->playerLNode, activePlayers, winners, x, y);
+	}
+	if (node->right != NULL)
+	{
+		treeScan(node->right, activePlayers, winners, x, y);
+	}
+}
+void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners)
+{
+	printf("\nCurrent player: %s", node->playerLNode->player->name);
+
+	int x = NULL, y = NULL;
+	switch (FillBoard(node->playerLNode->player->board, node->playerLNode->player->possibiltiesMatrix))
+	{
+	case FINISH_SUCCESS:
+	{
+		removePlayerFromList(node->playerLNode, activePlayers);
+		addPlayerNodeToList(node->playerLNode, winners);
+		node->playerLNode = NULL;
+	}
+	case FINISH_FAILURE:
+	{
+		removePlayerFromList(node->playerLNode, activePlayers);
+		node->playerLNode = NULL;
+		//needs to be freed
+	}
+
+	}
 }
