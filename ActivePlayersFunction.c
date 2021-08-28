@@ -200,11 +200,3 @@ PlayerTNODE* BuildPlayerTreeRec(PlayerListNode** arr, int size)
 	return root;
 }
 
-//gamePlay functions for active players
-void startGame(PlayersList* activePlayersList, PlayerTree activePlayersTree, PlayersList* winningPlayersList)
-{
-	while (!isEmptyPlayersList(activePlayersList))
-	{
-		
-	}
-}

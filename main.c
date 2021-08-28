@@ -55,7 +55,7 @@ void main()
 
 }
 
-void gamePlay(PlayersList* activePlayers,PlayersList* winners,PlayerTree* tree)
+void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree)
 {
 	//loop while the active players isn't empty
 
@@ -63,10 +63,18 @@ void gamePlay(PlayersList* activePlayers,PlayersList* winners,PlayerTree* tree)
 
 	//for every player -> oneStage 
 	  //if onestage-> FINISH_SUCCESS
-	    //winner -> delete from active players list, TNODE pointing to NULL
+		//winner -> delete from active players list, TNODE pointing to NULL
 	  //if lost -> FINISH_FAILURE
-	    // LOSER - > delete from active player list, TNODE pointing to NULL
+		// LOSER - > delete from active player list, TNODE pointing to NULL
 	  //if the game isn't finished -> NOT_FINISH 
-	    // getting user's input and using FillBoard to continue
+		// getting user's input and using FillBoard to continue
 
+}
+//gamePlay functions for active players
+void startGame(PlayersList* activePlayersList, PlayerTree activePlayersTree, PlayersList* winningPlayersList)
+{
+	while (!isEmptyPlayersList(activePlayersList))
+	{
+
+	}
 }
