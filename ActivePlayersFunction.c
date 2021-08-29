@@ -30,12 +30,12 @@ PlayersList* CreateActivePlayersList(int* numOfPlayers)
 	}
 	return activePlayers;
 }
-Player* createPlayer(char name[MAX_LEN])
+Player* createPlayer(char *name)
 {
 	Player* player = (Player*)malloc(sizeof(Player));//memAlloc
 	checkAlloc(player);
-	player->board = randBoardCreation(boardListCreation()); // creates a random game board for the player
-	player->name = *name; // received name is inserted to the struct
+	player -> board = randBoardCreation(boardListCreation()); // creates a random game board for the player
+	player->name = name; // received name is inserted to the struct
 	player->possibiltiesMatrix = PossibleDigits(player->board); // 'possibilities' board is created for the random board of the player
 	return player;
 }
@@ -169,13 +169,13 @@ PlayerTree BuildPlayerTree(PlayerListNode** arr, int size)
 {
 	int n, power;
 	PlayerTree res;
-	power = ceil(log(size) / log(2));
+	power = ceil(log(size + 1) / log(2));
 	n = pow(2, power) - 1;
 
 	arr = (PlayerListNode**)realloc(arr, n * sizeof(PlayerListNode*));
 	checkAlloc(arr);
 
-	for (int i = size - 1; i < n; i++)
+	for (int i = size ; i < n; i++)
 	{
 		arr[i] = NULL;
 	}
@@ -230,7 +230,8 @@ void startGame()
 	activePlayersArr = activePlayersArrayCreation(playersList);
 	playersTree = BuildPlayerTree(activePlayersArr, numOfPlayers);
 	gamePlay(playersList, winnersList, &playersTree);
-
+	// insert a function here for printing the winner's list
+	// insert a function here for freeing all of the allocated variables
 }
 void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree)
 {

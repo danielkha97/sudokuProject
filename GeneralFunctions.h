@@ -21,4 +21,8 @@ void checkAlloc(void* ptr);
 bool isEmptyList(List* lst);
 
 void makeEmptyList(List* lst);
+
+void insertDataToEndDList(List* dlst, int xCoord,int yCoord);
+
+void insertNodeToEndDList(List* dlst, ListNode* newTail);
 #endif /* GeneralFunctions_h */

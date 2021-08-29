@@ -681,15 +681,15 @@ List* boardListCreation() // creating a list representing coordinates of a sudok
 		for (int j = 0; j < SIZE; j++)
 		{
 			counter++;
-			curr = nodeCreation(i, j, prev, NULL);
+			/*curr = nodeCreation(i, j, prev, NULL);
 			if (curr->prev == NULL)
-				boardList->head = curr;
-			boardList->tail = curr;
-			prev = curr;
+				boardList -> head = curr;
+			boardList -> tail = curr;
+			prev = curr;*/
+			insertDataToEndDList(boardList, i, j);
 		}
-
 	}
-	boardList->listLen = counter;
+	boardList-> listLen = counter;
 	return boardList;
 
 }
@@ -698,11 +698,12 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next) /
 	ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
 	checkAlloc(newNode);
 	newNode->coordinates = (Cell*)malloc(sizeof(Cell));
+
 	checkAlloc(newNode->coordinates);
-	newNode->coordinates->xCoord = XCoord;
-	newNode->coordinates->yCoord = YCoord;
-	newNode->next = next;
-	newNode->prev = prev;
+	newNode -> coordinates -> xCoord = XCoord;
+	newNode -> coordinates -> yCoord = YCoord;
+	newNode -> next = next;
+	newNode -> prev = prev;
 
 	return newNode;
 
