@@ -42,8 +42,8 @@ typedef struct _PlayersList {
 typedef struct _ListNode {
 
 	Cell* coordinates;
-	struct _listnode* next;
-	struct _listnode* prev;
+	struct _ListNode* next;
+	struct _ListNode* prev;
 
 
 }ListNode;

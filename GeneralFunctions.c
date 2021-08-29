@@ -21,7 +21,7 @@ void makeEmptyList(List* lst)
 
 void insertDataToEndDList(List* dlst, int xCoord, int yCoord)
 {
-	List* newTail;
+	ListNode* newTail;
 
 	newTail = nodeCreation(xCoord, yCoord, NULL, NULL);
 	insertNodeToEndDList(dlst, newTail);
