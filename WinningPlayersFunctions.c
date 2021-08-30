@@ -12,5 +12,20 @@ void printWinners(PlayersList* winners)
 		curr = curr->next;
 	}
 }
+void freeWinnersList(PlayersList* list)
+{
+	PlayerListNode* temp = list->head;
+	PlayerListNode* curr;
+	freePlayer(list->head->player);
+	for (int i = 0; i < list->listLen; i++)
+	{
+		curr = temp->next;
+		freePlayer(temp->player);
+		free(temp);
+		temp = curr;
+	}
+	free(list);
+
+}
 
 

@@ -5,4 +5,6 @@
 
 
 void printWinners(PlayersList* winners);
+void freeWinnersList(PlayersList* list);
+
 #endif /* WINNING_PLAYERS_h */

@@ -211,7 +211,6 @@ void printSudokuLogo()
 	printf("    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 
 }
-
 void startGame()
 {
 
@@ -234,7 +233,11 @@ void startGame()
 	gamePlay(playersList, winnersList, &playersTree);
 	if (!isEmptyPlayersList(winnersList))
 		printWinners(winnersList);
-	
+
+	freeWinnersList(winnersList);
+	freeTree(&playersTree);
+
+
 	// insert a function here for freeing all of the allocated variables
 }
 void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree)
@@ -378,13 +381,41 @@ void insertPlayerNodeToEndDList(PlayersList* dlst, PlayerListNode* newTail)
 		dlst->tail = newTail;
 	}
 }
-//void freePlayer()
-//{
-//	freePossibilitiesBoard();
-//	create 3 functions to free player
-//}
-//void freeTree
+void freePlayer(Player* player)
+{
+	freePossibilitiesBoard(player->possibiltiesMatrix);
+	free(player->name);
+	free(player);
+}
+void freeTree(PlayerTree* tree)
+{
+	recFreeTree(tree->root);
+	free(tree);
+}
+void recFreeTree(PlayerTNODE* node)
+{
+	if (node->left == NULL && node->right == NULL)
+	{
+		if (node->playerLNode != NULL && node->playerLNode->player != NULL)
+			freePlayer(node->playerLNode->player);
+		if (node->playerLNode != NULL)
+			free(node->playerLNode);
+		return;
+	}
+	if (node->left != NULL)
+	{
+		recFreeTree(node->left);
+	}
+	if (node->right != NULL)
+	{
+		recFreeTree(node->right);
+	}
 
-//void freeWinnersList()
-//freeplayer
+	if (node->playerLNode != NULL && node->playerLNode->player != NULL)
+		freePlayer(node->playerLNode->player);
 
+	if (node->playerLNode != NULL)
+		free(node->playerLNode);
+
+	free(node);
+}
