@@ -4,7 +4,7 @@
 PlayersList* CreateActivePlayersList(int* numOfPlayers)
 {
 	int X; // activePlayers list length
-	
+
 
 
 	printf("\n");
@@ -31,11 +31,11 @@ PlayersList* CreateActivePlayersList(int* numOfPlayers)
 	}
 	return activePlayers;
 }
-Player* createPlayer(char *name)
+Player* createPlayer(char* name)
 {
 	Player* player = (Player*)malloc(sizeof(Player));//memAlloc
 	checkAlloc(player);
-	player -> board = randBoardCreation(boardListCreation()); // creates a random game board for the player
+	player->board = randBoardCreation(boardListCreation()); // creates a random game board for the player
 	player->name = name; // received name is inserted to the struct
 	player->possibiltiesMatrix = PossibleDigits(player->board); // 'possibilities' board is created for the random board of the player
 	return player;
@@ -69,11 +69,11 @@ void makeEmptyPlayersList(PlayersList* lst)
 	lst->head = NULL;
 	lst->tail = NULL;
 }//resets a player list after creation
-PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode *prev, PlayerListNode *next)
+PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode* prev, PlayerListNode* next)
 {
 	PlayerListNode* node = (PlayerListNode*)malloc(sizeof(PlayerListNode));
 	checkAlloc(node);
-	node -> player = player;
+	node->player = player;
 	node->next = next;
 	node->prev = prev;
 	return node;
@@ -177,7 +177,7 @@ PlayerTree BuildPlayerTree(PlayerListNode** arr, int size)
 	arr = (PlayerListNode**)realloc(arr, n * sizeof(PlayerListNode*));
 	checkAlloc(arr);
 
-	for (int i = size ; i < n; i++)
+	for (int i = size; i < n; i++)
 	{
 		arr[i] = NULL;
 	}
@@ -319,6 +319,7 @@ void removePlayerFromList(PlayerListNode* player, PlayersList* list)
 	}
 
 	list->listLen--;
+	free(player);
 }
 
 void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners, int* x, int* y)
@@ -330,43 +331,44 @@ void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winner
 		return;
 	}
 
-	if (node->left != NULL)
-	{
+	if (node->left != NULL && node->left->playerLNode != NULL)
 		treeScan(node->left, activePlayers, winners, x, y);
-	}
+
 	if (node->playerLNode != NULL)
-	{
-		playersTurn(node->playerLNode, activePlayers, winners, x, y);
-	}
-	if (node->right != NULL)
-	{
+		playersTurn(node, activePlayers, winners, x, y);
+
+	if (node->right != NULL && node->right->playerLNode != NULL)
 		treeScan(node->right, activePlayers, winners, x, y);
-	}
+
 }
 void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners)
 {
 	printf("\n Current player: %s\n", node->playerLNode->player->name);
 
-	int x = NULL, y = NULL;
-	switch (FillBoard(node-> playerLNode -> player -> board, node->playerLNode->player->possibiltiesMatrix))
+	
+	switch (FillBoard(node->playerLNode->player->board, node->playerLNode->player->possibiltiesMatrix))
 	{
 	case FINISH_SUCCESS:
 	{
+		insertPlayerDataToEndDList(winners, node->playerLNode->player);
 		removePlayerFromList(node->playerLNode, activePlayers);
-		addPlayerNodeToList(node->playerLNode, winners);
+		winners->listLen++;
 		node->playerLNode = NULL;
+		printf("\n WINNER ! \n");
 	}
 	case FINISH_FAILURE:
 	{
+		
 		removePlayerFromList(node->playerLNode, activePlayers);
 		node->playerLNode = NULL;
-		//needs to be freed !
+		printf("\n user's choices led to duplications  \n");
+		
 	}
 
 	}
 }
 
-void insertPlayerDataToEndDList(PlayersList* dlst, Player *currPlayer)
+void insertPlayerDataToEndDList(PlayersList* dlst, Player* currPlayer)
 {
 	PlayerListNode* newTail;
 
@@ -386,3 +388,8 @@ void insertPlayerNodeToEndDList(PlayersList* dlst, PlayerListNode* newTail)
 		dlst->tail = newTail;
 	}
 }
+//\\void freePlayer()
+//\\{
+//	\\freePossibilitiesBoard();
+//	\\create 3 functions to free player
+//\\}
