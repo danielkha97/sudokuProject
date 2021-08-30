@@ -17,8 +17,8 @@ typedef struct _cell
 
 typedef struct _Player
 {
-	char* name;
-	short** board;
+	char *name;
+	short board[SIZE][SIZE];
 	Array*** possibiltiesMatrix;
 
 }Player;

@@ -4,7 +4,5 @@
 #include "GeneralFunctions.h"
 
 
-void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree);
-
-
+void printWinners(PlayersList* winners);
 #endif /* WINNING_PLAYERS_h */

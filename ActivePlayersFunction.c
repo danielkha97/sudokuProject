@@ -21,7 +21,7 @@ PlayersList* CreateActivePlayersList(int* numOfPlayers)
 	for (; X > 0; X--)
 	{
 		Player* player;
-		char* name = (char*)malloc(sizeof(char) * MAX_LEN);
+		char *name = (char*) malloc (MAX_LEN * sizeof(char));
 		checkAlloc(name);
 		printf("\n");
 		printf("    Please enter player's name: ");
@@ -35,7 +35,7 @@ Player* createPlayer(char *name)
 {
 	Player* player = (Player*)malloc(sizeof(Player));//memAlloc
 	checkAlloc(player);
-	player -> board = randBoardCreation(boardListCreation()); // creates a random game board for the player
+	randBoardCreation(boardListCreation(), player->board); // creates a random game board for the player
 	player->name = name; // received name is inserted to the struct
 	player->possibiltiesMatrix = PossibleDigits(player->board); // 'possibilities' board is created for the random board of the player
 	return player;
@@ -60,16 +60,16 @@ PlayerListNode** activePlayersArrayCreation(PlayersList* activePlayers)
 }
 
 //Players list functions
-bool isEmptyPlayersList(PlayersList* lst)
+bool isEmptyPlayersList(PlayersList* lst)//checks if the playerlist is empty
 {
 	return (lst->head == NULL);
-}//checks if the playerlist is empty
-void makeEmptyPlayersList(PlayersList* lst)
+}
+void makeEmptyPlayersList(PlayersList* lst)//resets a player list after creation
 {
 	lst->head = NULL;
 	lst->tail = NULL;
-}//resets a player list after creation
-PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode *prev, PlayerListNode *next)
+}
+PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode *prev, PlayerListNode *next)// creates a player node for players list
 {
 	PlayerListNode* node = (PlayerListNode*)malloc(sizeof(PlayerListNode));
 	checkAlloc(node);
@@ -77,7 +77,7 @@ PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode *prev, Pl
 	node->next = next;
 	node->prev = prev;
 	return node;
-} // creates a player node for players list
+} 
 
 //MergeSort algorithm for players Array
 void mergeSort(PlayerListNode** arr, int l, int r)
