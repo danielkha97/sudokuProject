@@ -7,6 +7,7 @@
 #include "BoardFunctions.h"
 
 
+
 //Players list functions
 bool isEmptyPlayersList(PlayersList* lst);
 void makeEmptyPlayersList(PlayersList* lst);

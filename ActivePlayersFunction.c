@@ -21,7 +21,7 @@ PlayersList* CreateActivePlayersList(int* numOfPlayers)
 	for (; X > 0; X--)
 	{
 		Player* player;
-		char *name = (char*) malloc (MAX_LEN * sizeof(char));
+		char* name = (char*)malloc(MAX_LEN * sizeof(char));
 		checkAlloc(name);
 		printf("\n");
 		printf("    Please enter player's name: ");
@@ -69,7 +69,7 @@ void makeEmptyPlayersList(PlayersList* lst)//resets a player list after creation
 	lst->head = NULL;
 	lst->tail = NULL;
 }
-PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode *prev, PlayerListNode *next)// creates a player node for players list
+PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode* prev, PlayerListNode* next)// creates a player node for players list
 {
 	PlayerListNode* node = (PlayerListNode*)malloc(sizeof(PlayerListNode));
 	checkAlloc(node);
@@ -77,7 +77,7 @@ PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode *prev, Pl
 	node->next = next;
 	node->prev = prev;
 	return node;
-} 
+}
 
 //MergeSort algorithm for players Array
 void mergeSort(PlayerListNode** arr, int l, int r)
@@ -232,23 +232,13 @@ void startGame()
 	activePlayersArr = activePlayersArrayCreation(playersList);
 	playersTree = BuildPlayerTree(activePlayersArr, numOfPlayers);
 	gamePlay(playersList, winnersList, &playersTree);
-	// insert a function here for printing the winner's list
+	if (!isEmptyPlayersList(winnersList))
+		printWinners(winnersList);
+	
 	// insert a function here for freeing all of the allocated variables
 }
 void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree)
 {
-	//loop while the active players isn't empty
-
-	//tree scanning (in order)
-
-	//for every player -> oneStage 
-	  //if onestage-> FINISH_SUCCESS
-		//winner -> delete from active players list, TNODE pointing to NULL
-	  //if lost -> FINISH_FAILURE
-		// LOSER - > delete from active player list, TNODE pointing to NULL
-	  //if the game isn't finished -> NOT_FINISH 
-		// getting user's input and using FillBoard to continue
-
 	while (!isEmptyPlayersList(activePlayers))
 	{
 		int x, y;
@@ -345,7 +335,7 @@ void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* win
 {
 	printf("\n Current player: %s\n", node->playerLNode->player->name);
 
-	
+
 	switch (FillBoard(node->playerLNode->player->board, node->playerLNode->player->possibiltiesMatrix))
 	{
 	case FINISH_SUCCESS:
@@ -358,11 +348,11 @@ void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* win
 	}
 	case FINISH_FAILURE:
 	{
-		
+
 		removePlayerFromList(node->playerLNode, activePlayers);
 		node->playerLNode = NULL;
 		printf("\n user's choices led to duplications  \n");
-		
+
 	}
 
 	}
@@ -388,8 +378,13 @@ void insertPlayerNodeToEndDList(PlayersList* dlst, PlayerListNode* newTail)
 		dlst->tail = newTail;
 	}
 }
-//\\void freePlayer()
-//\\{
-//	\\freePossibilitiesBoard();
-//	\\create 3 functions to free player
-//\\}
+//void freePlayer()
+//{
+//	freePossibilitiesBoard();
+//	create 3 functions to free player
+//}
+//void freeTree
+
+//void freeWinnersList()
+//freeplayer
+
