@@ -38,6 +38,7 @@ PlayerTNODE* BuildPlayerTreeRec(PlayerListNode** arr, int size);
 
 /* there are the function for the actual game play for the active players */
 void startGame();
+void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree);
 void printSudokuLogo();
 void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners);
 void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners, int* x, int* y);
