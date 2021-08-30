@@ -1,5 +1,6 @@
 #include "ActivePlayersFunctions.h"
 
+// Temp
 PlayersList* CreateActivePlayersList(int* numOfPlayers)
 {
 	int X; // activePlayers list length
@@ -359,7 +360,7 @@ void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* win
 	{
 		removePlayerFromList(node->playerLNode, activePlayers);
 		node->playerLNode = NULL;
-		//needs to be freed
+		//needs to be freed !
 	}
 
 	}
