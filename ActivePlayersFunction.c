@@ -2,7 +2,7 @@
 
 PlayersList* CreateActivePlayersList(int* numOfPlayers)
 {
-	int X; // active players list length
+	int X; // activePlayers list length
 	PlayerListNode* curr = NULL;
 	PlayerListNode* prev = NULL;
 
@@ -11,9 +11,12 @@ PlayersList* CreateActivePlayersList(int* numOfPlayers)
 	scanf("%d", &X);
 	*numOfPlayers = X;
 	PlayersList* activePlayers = (PlayersList*)malloc(sizeof(PlayersList));
-	makeEmptyPlayersList(activePlayers);
+	checkAlloc(activePlayers);
+
+	makeEmptyPlayersList(activePlayers);//resets the list head and tail to NULL
 	activePlayers->listLen = X;
-	char name[MAX_LEN];
+	char* name = (char*)malloc(sizeof(char) * MAX_LEN);
+	checkAlloc(name);
 
 	for (; X > 0; X--)
 	{
@@ -65,7 +68,8 @@ bool isEmptyPlayersList(PlayersList* lst)
 }//checks if the playerlist is empty
 void makeEmptyPlayersList(PlayersList* lst)
 {
-	lst->head = lst->tail = NULL;
+	lst->head = NULL;
+	lst->tail = NULL;
 }//resets a player list after creation
 PlayerListNode* playersListNodeCreation(Player* player)
 {
