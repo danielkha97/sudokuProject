@@ -400,7 +400,7 @@ void sudokoPrintBoard(short sudokuBoard[][9])
 
 }
 
-int FillBoard(short board[][9], Array*** possibilities)
+int FillBoard(short **board, Array*** possibilities)
 {
 	int boardStatus, xCoord, yCoord, gameStatus;
 
@@ -644,16 +644,19 @@ short** randBoardCreation(List* boardList)
 	}
 
 	for (i = 0; i < SIZE; i++)
+	{
 		for (j = 0; j < SIZE; j++)
 		{
 			board[i][j] = -1;
 		}
+	}
+
 
 	srand(time(NULL));
-	N = rand() % 21;
+	N = 1 + rand() % 20;
 	for (i = 0; i < N; i++)
 	{
-		K = rand() % boardList->listLen;
+		K = 1 + rand() % boardList->listLen;
 		for (int j = 0; j < K; j++)
 		{
 			if (j == 0)
@@ -661,7 +664,7 @@ short** randBoardCreation(List* boardList)
 			else
 				curr = curr->next;
 		}
-		updateBoardRandomly(curr->coordinates->xCoord, curr->coordinates->yCoord, board);
+		updateBoardRandomly(curr->coordinates->xCoord, curr->coordinates->yCoord, board, SIZE);
 		removeFromList(boardList, curr);
 	}
 
@@ -670,8 +673,6 @@ short** randBoardCreation(List* boardList)
 List* boardListCreation() // creating a list representing coordinates of a sudoku board
 {
 	int counter = 0;
-	ListNode* prev = NULL;
-	ListNode* curr = NULL;
 	List* boardList = (List*)malloc(sizeof(boardList));
 	checkAlloc(boardList);
 	makeEmptyList(boardList);
@@ -681,15 +682,10 @@ List* boardListCreation() // creating a list representing coordinates of a sudok
 		for (int j = 0; j < SIZE; j++)
 		{
 			counter++;
-			/*curr = nodeCreation(i, j, prev, NULL);
-			if (curr->prev == NULL)
-				boardList -> head = curr;
-			boardList -> tail = curr;
-			prev = curr;*/
 			insertDataToEndDList(boardList, i, j);
 		}
 	}
-	boardList-> listLen = counter;
+	boardList->listLen = counter;
 	return boardList;
 
 }
@@ -700,20 +696,20 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next) /
 	newNode->coordinates = (Cell*)malloc(sizeof(Cell));
 
 	checkAlloc(newNode->coordinates);
-	newNode -> coordinates -> xCoord = XCoord;
-	newNode -> coordinates -> yCoord = YCoord;
-	newNode -> next = next;
-	newNode -> prev = prev;
+	newNode->coordinates->xCoord = XCoord;
+	newNode->coordinates->yCoord = YCoord;
+	newNode->next = next;
+	newNode->prev = prev;
 
 	return newNode;
 
 }
-void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates a legal option from an array randomly
+void updateBoardRandomly(int XCoord, int YCoord, short** board, int size) // updates a legal option from an array randomly
 {
-	int randIndex, counter = 0;
-	int* cellOptions = (int*)malloc(SIZE * sizeof(int));
+	short randIndex, counter = 0;
+	short* cellOptions = (short*)malloc(SIZE * sizeof(short));
 
-	for (int i = 1; i < 10; i++)
+	for (short i = 1; i < 10; i++)
 	{
 		if (isValidNum(i, board, XCoord, YCoord))
 		{
@@ -721,6 +717,7 @@ void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]) // updates
 			counter++;
 		}
 	}
+
 	randIndex = rand() % counter;
 	board[XCoord][YCoord] = cellOptions[randIndex];
 	free(cellOptions);

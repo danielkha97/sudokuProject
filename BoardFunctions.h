@@ -37,7 +37,7 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, in
 void sudokoPrintBoard(short sudokuBoard[][9]);
 
 /* this function supervises the functions from questions A,B*/
-int FillBoard(short board[][9], Array*** possibilities);
+int FillBoard(short **board, Array*** possibilities);
 
 /* This function asks the user which digit to choose in a cell to put in and fills it in the suddoku board and possibilities matrix accordingly*/
 bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yCoord);
@@ -61,7 +61,7 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next);
 List* boardListCreation();
 
 /* this funtions updates a random value in a given coordinates */
-void updateBoardRandomly(int XCoord, int YCoord, short board[][SIZE]);
+void updateBoardRandomly(int XCoord, int YCoord, short **board, int size);
 
 /* this function removes a list node from a given list */
 void removeFromList(List* list, ListNode* node);

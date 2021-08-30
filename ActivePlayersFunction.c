@@ -3,8 +3,8 @@
 PlayersList* CreateActivePlayersList(int* numOfPlayers)
 {
 	int X; // activePlayers list length
-	PlayerListNode* curr = NULL;
-	PlayerListNode* prev = NULL;
+	
+
 
 	printf("\n");
 	printf("    Please enter the number of active players: ");
@@ -13,23 +13,20 @@ PlayersList* CreateActivePlayersList(int* numOfPlayers)
 	PlayersList* activePlayers = (PlayersList*)malloc(sizeof(PlayersList));
 	checkAlloc(activePlayers);
 
-	makeEmptyPlayersList(activePlayers);//resets the list head and tail to NULL
+	makeEmptyPlayersList(activePlayers); //resets the list head and tail to NULL
 	activePlayers->listLen = X;
-	char* name = (char*)malloc(sizeof(char) * MAX_LEN);
-	checkAlloc(name);
+
 
 	for (; X > 0; X--)
 	{
-
+		Player* player;
+		char* name = (char*)malloc(sizeof(char) * MAX_LEN);
+		checkAlloc(name);
 		printf("\n");
 		printf("    Please enter player's name: ");
 		scanf("%s", name);
-		curr = playersListNodeCreation(createPlayer(name)); // creating a player with the given name and creates a PlayerListNode with the same player
-		if (prev == NULL) // if that's the first node created, then it's the head of the list
-			activePlayers->head = curr;
-		activePlayers->tail = curr;  // the last node created will be the tail of the list
-		curr->prev = prev;
-		prev = curr;
+		player = createPlayer(name);
+		insertPlayerDataToEndDList(activePlayers, player);
 	}
 	return activePlayers;
 }
@@ -71,11 +68,13 @@ void makeEmptyPlayersList(PlayersList* lst)
 	lst->head = NULL;
 	lst->tail = NULL;
 }//resets a player list after creation
-PlayerListNode* playersListNodeCreation(Player* player)
+PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode *prev, PlayerListNode *next)
 {
 	PlayerListNode* node = (PlayerListNode*)malloc(sizeof(PlayerListNode));
 	checkAlloc(node);
-	node->player = player;
+	node -> player = player;
+	node->next = next;
+	node->prev = prev;
 	return node;
 } // creates a player node for players list
 
@@ -83,8 +82,6 @@ PlayerListNode* playersListNodeCreation(Player* player)
 void mergeSort(PlayerListNode** arr, int l, int r)
 {
 	if (l < r) {
-
-
 		int m = l + (r - l) / 2;
 
 		mergeSort(arr, l, m);
@@ -347,7 +344,7 @@ void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winner
 }
 void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners)
 {
-	printf("\nCurrent player: %s", node->playerLNode->player->name);
+	printf("\n Current player: %s", node->playerLNode->player->name);
 
 	int x = NULL, y = NULL;
 	switch (FillBoard(node->playerLNode->player->board, node->playerLNode->player->possibiltiesMatrix))
@@ -365,5 +362,26 @@ void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* win
 		//needs to be freed
 	}
 
+	}
+}
+
+void insertPlayerDataToEndDList(PlayersList* dlst, Player *currPlayer)
+{
+	PlayerListNode* newTail;
+
+	newTail = playersListNodeCreation(currPlayer, NULL, NULL);
+	insertPlayerNodeToEndDList(dlst, newTail);
+}
+
+void insertPlayerNodeToEndDList(PlayersList* dlst, PlayerListNode* newTail)
+{
+	if (isEmptyPlayersList(dlst))
+		dlst->head = dlst->tail = newTail;
+	else
+	{
+		newTail->prev = dlst->tail;
+		newTail->next = NULL;
+		dlst->tail->next = newTail;
+		dlst->tail = newTail;
 	}
 }

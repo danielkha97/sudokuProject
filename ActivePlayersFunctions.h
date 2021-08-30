@@ -18,7 +18,9 @@ PlayerListNode* playersListNodeCreation(Player* player);
 bool isEmptyPlayersList(PlayersList* lst);
 void makeEmptyPlayersList(PlayersList* lst);
 PlayersList* CreateActivePlayersList(int* numOfPlayers); // receives the number of active players list and creates the list from user's input
-PlayerListNode* playersListNodeCreation(Player* player); //creates a player list node from a given player
+PlayerListNode* playersListNodeCreation(Player* player ,PlayerListNode* prev, PlayerListNode* next); //creates a player list node from a given player
+void insertPlayerDataToEndDList(PlayersList* dlst, Player* currPlayer);
+void insertPlayerNodeToEndDList(PlayersList* dlst, PlayerListNode* newTail);
 
 //Creates a new var from type Player
 Player* createPlayer(char name[MAX_LEN]);
