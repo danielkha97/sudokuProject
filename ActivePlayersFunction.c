@@ -344,10 +344,10 @@ void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winner
 }
 void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners)
 {
-	printf("\n Current player: %s", node->playerLNode->player->name);
+	printf("\n Current player: %s\n", node->playerLNode->player->name);
 
 	int x = NULL, y = NULL;
-	switch (FillBoard(node->playerLNode->player->board, node->playerLNode->player->possibiltiesMatrix))
+	switch (FillBoard(node-> playerLNode -> player -> board, node->playerLNode->player->possibiltiesMatrix))
 	{
 	case FINISH_SUCCESS:
 	{

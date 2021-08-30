@@ -2,7 +2,7 @@
 
 
 
-Array*** PossibleDigits(short sudokuBoard[][9])
+Array*** PossibleDigits(short **sudokuBoard)
 {
 	Array*** res;
 	res = initPossibilitiesMatrix(sudokuBoard);
@@ -12,7 +12,7 @@ Array*** PossibleDigits(short sudokuBoard[][9])
 }
 
 
-Array*** initPossibilitiesMatrix(short sudokuBoard[][9])
+Array*** initPossibilitiesMatrix(short **sudokuBoard)
 {
 	Array*** res;
 	int i, j;
@@ -41,7 +41,7 @@ Array*** initPossibilitiesMatrix(short sudokuBoard[][9])
 	return res;
 }
 
-void fillPossibilities(Array* res, short sudokuBoard[][9], int row, int col)
+void fillPossibilities(Array* res, short **sudokuBoard, int row, int col)
 {
 
 	short num;
@@ -70,7 +70,7 @@ void fillPossibilities(Array* res, short sudokuBoard[][9], int row, int col)
 }
 
 /* This functions checks if the argument "num" given is a possibility for the current cell */
-bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
+bool isValidNum(short num, short **sudokuBoard, int row, int col)
 {
 	bool flag = true;
 	int i, xCoord, yCoord;
@@ -99,7 +99,7 @@ bool isValidNum(short num, short sudokuBoard[][9], int row, int col)
 
 
 /* This function fills in the locations with only 1 option */
-int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
+int OneStage(short **board, Array*** possibilities, int* x, int* y)
 {
 	int singleCellsFound = 0, emptyCells, res = NOT_FINISH;
 	bool isDuplicate = false;
@@ -194,7 +194,7 @@ int OneStage(short board[][9], Array*** possibilities, int* x, int* y)
 	return res;
 
 }
-bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, int arrInd)
+bool checkAndFill(short** board, Array*** possibilities, int row, int col, int arrInd)
 {
 
 	/* isValidNum checks if the number is a legal option at a given location - returns true if legal*/
@@ -215,7 +215,7 @@ bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, in
 		return false;
 }
 
-void sudokoPrintBoard(short sudokuBoard[][9])
+void sudokoPrintBoard(short **sudokuBoard)
 {
 	int i, j, k;
 	printf("\n\n");
@@ -435,7 +435,7 @@ int FillBoard(short **board, Array*** possibilities)
 
 	return gameStatus;
 }
-bool fillUserChoice(short board[][9], Array*** possibilities, int xCoord, int yCoord)
+bool fillUserChoice(short **board, Array*** possibilities, int xCoord, int yCoord)
 {
 	int i, j, arrSize;
 	int userChoice, chosenIndex;
@@ -499,7 +499,7 @@ int findIndInArray(short* arr, unsigned short size, int item)
 
 	return ind;
 }
-void updatePossibilitiesMatrix(short board[][9], Array*** possibilities, int row, int col, int num, bool* isDuplicate)
+void updatePossibilitiesMatrix(short **board, Array*** possibilities, int row, int col, int num, bool* isDuplicate)
 {
 	/* this function go over the row and col and 3X3 matrix of a specific cell (one option digit cell) and removes and filled digit from the other empty cells*/
 	short i, ind, xCoord, yCoord, prevSize, newSize;
