@@ -1,20 +1,12 @@
 #ifndef ACTIVE_PLAYERS_h
 #define ACTIVE_PLAYERS_h
 
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdlib.h>
+
 #include "GeneralFunctions.h"
-#include "BoardFunctions.h"
 
 
 
-//Players list functions
-bool isEmptyPlayersList(PlayersList* lst);
-void makeEmptyPlayersList(PlayersList* lst);
-void addPlayerNodeToList(PlayerListNode* player, PlayersList* list);
 
-//creates a player list node from a given player
-PlayerListNode* playersListNodeCreation(Player* player);
 //Players list functions
 bool isEmptyPlayersList(PlayersList* lst);
 void makeEmptyPlayersList(PlayersList* lst);
@@ -24,7 +16,7 @@ void insertPlayerDataToEndDList(PlayersList* dlst, Player* currPlayer);
 void insertPlayerNodeToEndDList(PlayersList* dlst, PlayerListNode* newTail);
 
 //Creates a new var from type Player
-Player* createPlayer(char name[MAX_LEN]);
+Player* createPlayer(char* name);
 
 // sorting the array woth ,mergesort by the required criteria
 void mergeSort(PlayerListNode** arr, int l, int r);
@@ -42,7 +34,7 @@ void startGame();
 void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree);
 void printSudokuLogo();
 void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners);
-void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners, int* x, int* y);
+void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners);
 
 //mem free functions of structs
 void freeTree(PlayerTree* tree);

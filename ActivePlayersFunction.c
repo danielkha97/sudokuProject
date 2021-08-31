@@ -1,6 +1,6 @@
 #include "ActivePlayersFunctions.h"
 
-// Temp
+
 PlayersList* CreateActivePlayersList(int* numOfPlayers)
 {
 	int X; // activePlayers list length
@@ -79,6 +79,8 @@ PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode* prev, Pl
 	node->prev = prev;
 	return node;
 }
+
+
 
 //MergeSort algorithm for players Array
 void mergeSort(PlayerListNode** arr, int l, int r)
@@ -245,8 +247,7 @@ void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree
 {
 	while (!isEmptyPlayersList(activePlayers))
 	{
-		int x, y;
-		treeScan(tree->root, activePlayers, winners, &x, &y);
+		treeScan(tree->root, activePlayers, winners);
 	}
 
 }
@@ -316,7 +317,7 @@ void removePlayerFromList(PlayerListNode* player, PlayersList* list)
 	free(player);
 }
 
-void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners, int* x, int* y)
+void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners)
 {
 	if (node->left == NULL && node->right == NULL)
 	{
@@ -326,13 +327,13 @@ void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winner
 	}
 
 	if (node->left != NULL && node->left->playerLNode != NULL)
-		treeScan(node->left, activePlayers, winners, x, y);
+		treeScan(node->left, activePlayers, winners);
 
 	if (node->playerLNode != NULL)
-		playersTurn(node, activePlayers, winners, x, y);
+		playersTurn(node, activePlayers, winners);
 
 	if (node->right != NULL && node->right->playerLNode != NULL)
-		treeScan(node->right, activePlayers, winners, x, y);
+		treeScan(node->right, activePlayers, winners);
 
 }
 void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners)

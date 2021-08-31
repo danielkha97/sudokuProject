@@ -1,8 +1,7 @@
 ﻿#ifndef BoardFunctions_h
 #define BoardFunctions_h
 #include "GeneralFunctions.h"
-#include <stdlib.h>
-#include <stdio.h>
+
 
 
 #define EMPTY_CELL -1
