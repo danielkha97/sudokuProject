@@ -44,5 +44,10 @@ void printSudokuLogo();
 void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners);
 void treeScan(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* winners, int* x, int* y);
 
+//mem free functions of structs
+void freeTree(PlayerTree* tree);
+void recFreeTree(PlayerTNODE* node);
+void freePlayer(Player* player);
+
 #endif /* ACTIVE_PLAYERS_h */
 
