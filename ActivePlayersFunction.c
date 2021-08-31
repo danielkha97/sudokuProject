@@ -66,6 +66,7 @@ bool isEmptyPlayersList(PlayersList* lst)//checks if the playerlist is empty
 }
 void makeEmptyPlayersList(PlayersList* lst)//resets a player list after creation
 {
+	lst->listLen = 0;
 	lst->head = NULL;
 	lst->tail = NULL;
 }
