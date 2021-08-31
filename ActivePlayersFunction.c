@@ -234,7 +234,7 @@ void startGame()
 	gamePlay(playersList, winnersList, &playersTree);
 	if (!isEmptyPlayersList(winnersList))
 		printWinners(winnersList);
-	
+
 	// insert a function here for freeing all of the allocated variables
 }
 void gamePlay(PlayersList* activePlayers, PlayersList* winners, PlayerTree* tree)
@@ -338,22 +338,25 @@ void playersTurn(PlayerTNODE* node, PlayersList* activePlayers, PlayersList* win
 
 	switch (FillBoard(node->playerLNode->player->board, node->playerLNode->player->possibiltiesMatrix))
 	{
-	case FINISH_SUCCESS:
-	{
+	  case FINISH_SUCCESS:
+	  {
 		insertPlayerDataToEndDList(winners, node->playerLNode->player);
-		removePlayerFromList(node->playerLNode, activePlayers);
 		winners->listLen++;
-		node->playerLNode = NULL;
+		sudokoPrintBoard(node->playerLNode->player->board);
 		printf("\n WINNER ! \n");
-	}
-	case FINISH_FAILURE:
-	{
+		removePlayerFromList(node->playerLNode, activePlayers);
+		node->playerLNode = NULL;
+		break;
+	  }
+	  case FINISH_FAILURE:
+	  {
 
 		removePlayerFromList(node->playerLNode, activePlayers);
 		node->playerLNode = NULL;
 		printf("\n user's choices led to duplications  \n");
+		break;
 
-	}
+	  }
 
 	}
 }
