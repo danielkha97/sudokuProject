@@ -22,7 +22,7 @@ bool isEmptyList(List* lst);
 /*resets a list*/
 void makeEmptyList(List* lst);
 /*creates a new node and calls insertNodeToEndList/*/
-void insertDataToEndDList(List* dlst, int xCoord,int yCoord);
+void insertDataToEndDList(List* dlst, int xCoord, int yCoord);
 /*adds a node to end of a list and adjusts the head/tail*/
 void insertNodeToEndDList(List* dlst, ListNode* newTail);
 #endif /* GeneralFunctions_h */
