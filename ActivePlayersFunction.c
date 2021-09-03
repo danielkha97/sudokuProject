@@ -4,19 +4,14 @@
 PlayersList* CreateActivePlayersList(int* numOfPlayers)
 {
 	int X; // activePlayers list length
-
-
-
 	printf("\n");
 	printf("    Please enter the number of active players: ");
 	scanf("%d", &X);
 	*numOfPlayers = X;
 	PlayersList* activePlayers = (PlayersList*)malloc(sizeof(PlayersList));
 	checkAlloc(activePlayers);
-
 	makeEmptyPlayersList(activePlayers); //resets the list head and tail to NULL
 	activePlayers->listLen = X;
-
 
 	for (; X > 0; X--)
 	{
@@ -80,8 +75,6 @@ PlayerListNode* playersListNodeCreation(Player* player, PlayerListNode* prev, Pl
 	return node;
 }
 
-
-
 //MergeSort algorithm for players Array
 void mergeSort(PlayerListNode** arr, int l, int r)
 {
@@ -129,7 +122,7 @@ void merge(PlayerListNode** arr, int p, int q, int r)
 		}
 		else
 		{
-			if (strcmp(L[i]->player->name, M[j]->player->name) <= 0) // ascending order
+			if (strcmp(L[i]->player->name, M[j]->player->name) <= 0) // ascending alphabetical order if the first critria is equal
 			{
 				arr[k] = L[i];
 				i++;

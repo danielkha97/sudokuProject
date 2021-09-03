@@ -1,6 +1,6 @@
 #ifndef Structs_h
 #define Structs_h
-#define SIZE 9 //check if interrupts other files
+#define SIZE 9 
 #define MAX_LEN 100
 
 typedef struct _Array

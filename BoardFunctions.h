@@ -25,17 +25,19 @@ Array*** initPossibilitiesMatrix(short sudokuBoard[][9]);
 /* This function receives an empty cell and fills the possible number for this cell */
 void fillPossibilities(Array* res, short sudokuBoard[][9], int row, int col);
 
-/* This functions checks if every number from 1-9 if each is a possibility for the current cell */
+/* This functions checks if every number 1-9 is a possibility for a cell */
 bool isValidNum(short num, short sudokuBoard[][9], int row, int col);
 
 /* This function fills in the locations with only 1 option */
 int OneStage(short board[][9], Array*** possibilities, int* x, int* y);
+
+/*checks if a given value is ok to fill, free the possibilities board cell in same coordinates*/
 bool checkAndFill(short board[][9], Array*** possibilities, int row, int col, int arrInd);
 
 /* this is the sudoku board printing function */
 void sudokoPrintBoard(short sudokuBoard[][9]);
 
-/* this function supervises the functions from questions A,B*/
+/* this function unites the functions from questions A,B*/
 int FillBoard(short board[][9], Array*** possibilities);
 
 /* This function asks the user which digit to choose in a cell to put in and fills it in the suddoku board and possibilities matrix accordingly*/
@@ -59,13 +61,13 @@ ListNode* nodeCreation(int XCoord, int YCoord, ListNode* prev, ListNode* next);
 /* creating a list representing coordinates of a sudoku board */
 List* boardListCreation();
 
-/* this funtions updates a random value in a given coordinates */
+/* this funtions updates a random value in given coordinates */
 void updateBoardRandomly(int XCoord, int YCoord, short board[][9], int size);
 
 /* this function removes a list node from a given list */
 void removeFromList(List* list, ListNode* node);
 
-/* this function creates randomize a game board  */
+/* this function creates random game board  */
 void randBoardCreation(List* boardList, short board[][9]);
 
 /* this functions counts the number of full cells in a board */
