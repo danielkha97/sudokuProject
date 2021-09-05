@@ -569,7 +569,7 @@ void randBoardCreation(List* boardList, short board[][9])
 List* boardListCreation() // creating a list representing coordinates of a sudoku board
 {
 	int counter = 0;
-	List* boardList = (List*)malloc(sizeof(boardList));
+	List* boardList = (List*)malloc(sizeof(List));
 	checkAlloc(boardList);
 	makeEmptyList(boardList);
 
